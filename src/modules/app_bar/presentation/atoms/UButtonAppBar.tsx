@@ -1,5 +1,6 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import './UButtonAppBar.css';
 
 type UButtonAppBarProps = {
     label: string;
@@ -13,24 +14,15 @@ const TextButton = styled(Button)(({ theme }) => ({
     color: 'white',
     backgroundColor: 'transparent',
     '&:hover': {
-      backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.action.hover,
     },
-  }));
+}));
 
 export default function UButtonAppBar({ label, isActive, onClick }: UButtonAppBarProps) {
     return (
-        <div onClick={onClick} style={{ position: 'relative' }}>
-            <TextButton variant="text" >{label}</TextButton>
-            {isActive && (
-                <div style={{
-                    position: 'absolute',
-                    bottom: -2,
-                    left: 0,
-                    right: 0,
-                    height: '3px',
-                    backgroundColor: 'purple',
-                }} />
-            )}
+        <div className="buttonContainer" onClick={onClick}>
+            <TextButton variant="text" className="textButton">{label}</TextButton>
+            {isActive && <div className="activeIndicator" />}
         </div>
     );
 }
