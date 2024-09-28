@@ -1,4 +1,4 @@
-import UNAppBar from "../../../app_bar/presentation/UNAppBar";
+import UAppBar from "../../../app_bar/presentation/UAppBar";
 
 import { CSSProperties } from 'react';
 import Body from "../sections/Body";
@@ -7,7 +7,7 @@ export default function HomePage() {
     return (
         <div style={styles.container}>
             <div style={styles.appBarContainer}>
-                <UNAppBar />
+                <UAppBar />
             </div>
             <div style={styles.content}>
                 <Body />
