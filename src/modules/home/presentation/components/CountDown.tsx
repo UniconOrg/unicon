@@ -1,4 +1,6 @@
-import { CSSProperties, useEffect, useState } from "react";
+import "./CountDown.css";
+
+import { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import React from "react";
 
@@ -17,6 +19,7 @@ function GradientCircularProgress() {
         </React.Fragment>
     );
 }
+
 
 export default function CountDown() {
     const [timeLeft, setTimeLeft] = useState<{
@@ -58,65 +61,34 @@ export default function CountDown() {
     }, []);
 
     return (
-        <>
-
-            <div style={styles.countDown}>
-                {timeLeft.days === undefined ||
-                    timeLeft.hours === undefined ||
-                    timeLeft.minutes === undefined ||
-                    timeLeft.seconds === undefined ? (
-                    <div style={styles.loading}>
-                        <GradientCircularProgress />
-                    </div>
-                ) : (<>
+        <div className="countDown">
+            {timeLeft.days === undefined ||
+                timeLeft.hours === undefined ||
+                timeLeft.minutes === undefined ||
+                timeLeft.seconds === undefined ? (
+                <div className="loading">
+                    <GradientCircularProgress />
+                </div>
+            ) : (
+                <>
                     <div>
-                        <p style={styles.countDownTime}>{timeLeft.days}</p>
-                        <p style={styles.countDownLabel}>DAYS</p>
-                    </div>
-                    <div>
-                        <p style={styles.countDownTime}>{timeLeft.hours}</p>
-                        <p style={styles.countDownLabel}>HRS</p>
+                        <p className="countDownTime">{timeLeft.days}</p>
+                        <p className="countDownLabel">DAYS</p>
                     </div>
                     <div>
-                        <p style={styles.countDownTime}>{timeLeft.minutes}</p>
-                        <p style={styles.countDownLabel}>MIN</p>
+                        <p className="countDownTime">{timeLeft.hours}</p>
+                        <p className="countDownLabel">HRS</p>
                     </div>
                     <div>
-                        <p style={styles.countDownTime}>{timeLeft.seconds}</p>
-                        <p style={styles.countDownLabel}>SEC</p>
+                        <p className="countDownTime">{timeLeft.minutes}</p>
+                        <p className="countDownLabel">MIN</p>
                     </div>
-                </>)}
-
-            </div>
-
-        </>
+                    <div>
+                        <p className="countDownTime">{timeLeft.seconds}</p>
+                        <p className="countDownLabel">SEC</p>
+                    </div>
+                </>
+            )}
+        </div>
     );
 }
-const styles: {
-    countDown: CSSProperties,
-    countDownTime: CSSProperties,
-    countDownLabel: CSSProperties,
-    loading: CSSProperties,
-} = {
-    countDown: {
-        display: 'flex',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: '20%',
-        width: '40%',
-        margin: 'auto',
-    },
-    countDownTime: {
-        fontSize: '3rem',
-        marginTop: '20px',
-        marginBottom: '10px',
-    },
-    countDownLabel: {
-        marginTop: '1px',
-    },
-    loading: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-};
