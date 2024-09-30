@@ -10,6 +10,10 @@ export default function UAppBar() {
 
     const handleButtonClick = (label: string) => {
         setActiveButton(label);
+        const element = document.getElementById(label);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' }); // Scroll suave hacia el elemento
+        }
     };
 
     const handleHamburgerClick = () => {
@@ -36,14 +40,14 @@ export default function UAppBar() {
                 ))}
             </div>
             <div className="hamburger" onClick={handleHamburgerClick}>
-                {}
-                &#9776; {}
+                { }
+                &#9776; { }
             </div>
 
-            <UDrawer 
-                open={drawerOpen} 
-                onClose={handleCloseDrawer} 
-                onButtonClick={handleButtonClick} 
+            <UDrawer
+                open={drawerOpen}
+                onClose={handleCloseDrawer}
+                onButtonClick={handleButtonClick}
             />
         </div>
     );
