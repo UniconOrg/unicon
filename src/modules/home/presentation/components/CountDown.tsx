@@ -1,24 +1,6 @@
 import "./CountDown.css";
 
 import { useEffect, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import React from "react";
-
-function GradientCircularProgress() {
-    return (
-        <React.Fragment>
-            <svg width={0} height={0}>
-                <defs>
-                    <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#e01cd5" />
-                        <stop offset="100%" stopColor="#1CB5E0" />
-                    </linearGradient>
-                </defs>
-            </svg>
-            <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
-        </React.Fragment>
-    );
-}
 
 
 export default function CountDown() {
@@ -27,7 +9,7 @@ export default function CountDown() {
         hours?: string;
         minutes?: string;
         seconds?: string;
-    }>({});
+    }>({days: '00', hours: '00', minutes: '00', seconds: '00'});
 
     useEffect(() => {
         const targetDate = Date.UTC(2025, 0, 25, 16, 0, 0);
@@ -62,33 +44,24 @@ export default function CountDown() {
 
     return (
         <div className="countDown">
-            {timeLeft.days === undefined ||
-                timeLeft.hours === undefined ||
-                timeLeft.minutes === undefined ||
-                timeLeft.seconds === undefined ? (
-                <div className="loading">
-                    <GradientCircularProgress />
-                </div>
-            ) : (
-                <>
-                    <div>
-                        <p className="countDownTime">{timeLeft.days}</p>
-                        <p className="countDownLabel">DAYS</p>
-                    </div>
-                    <div>
-                        <p className="countDownTime">{timeLeft.hours}</p>
-                        <p className="countDownLabel">HRS</p>
-                    </div>
-                    <div>
-                        <p className="countDownTime">{timeLeft.minutes}</p>
-                        <p className="countDownLabel">MIN</p>
-                    </div>
-                    <div>
-                        <p className="countDownTime">{timeLeft.seconds}</p>
-                        <p className="countDownLabel">SEC</p>
-                    </div>
-                </>
-            )}
+
+            <div>
+                <p className="countDownTime">{timeLeft.days}</p>
+                <p className="countDownLabel">DAYS</p>
+            </div>
+            <div>
+                <p className="countDownTime">{timeLeft.hours}</p>
+                <p className="countDownLabel">HRS</p>
+            </div>
+            <div>
+                <p className="countDownTime">{timeLeft.minutes}</p>
+                <p className="countDownLabel">MIN</p>
+            </div>
+            <div>
+                <p className="countDownTime">{timeLeft.seconds}</p>
+                <p className="countDownLabel">SEC</p>
+            </div>
+
         </div>
     );
 }
