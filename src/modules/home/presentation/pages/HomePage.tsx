@@ -6,7 +6,7 @@ import FAQPage from "../../../faq/presentation/pages/FAQPage";
 
 export default function HomePage() {
     return (
-        <div style={styles.container}>
+        <div style={styles.container} id="Inicio">
             <div style={styles.appBarContainer}>
                 <UAppBar />
             </div>
