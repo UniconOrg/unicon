@@ -19,7 +19,7 @@ const RegisterButton = styled(Button)(({ theme }) => ({
 
 export default function Body() {
     return (
-        <div className="body">
+        <div className="body" id="Inicio">
             <div className='content'>
                 <img src="/unicon.png" alt="unicon" className="unicon-image" />
                 <p className="mission">Un faro de inspiración y comunidad para los visionarios tecnológicos del mañana.</p>
