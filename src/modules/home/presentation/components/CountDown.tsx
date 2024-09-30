@@ -30,7 +30,7 @@ export default function CountDown() {
     }>({});
 
     useEffect(() => {
-        const targetDate = Date.UTC(2025, 0, 26, 16, 0, 0);
+        const targetDate = Date.UTC(2025, 0, 25, 16, 0, 0);
 
         const interval = setInterval(() => {
             const now = new Date().getTime();
