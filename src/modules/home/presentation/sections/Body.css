@@ -15,6 +15,12 @@
     margin-top: 20px;
 }
 
+.p-register{
+    color: rgb(156, 83, 196);
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
 @media (max-width: 1200px) {
     .body {
         width: 75%;

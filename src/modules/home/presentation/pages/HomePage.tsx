@@ -11,7 +11,6 @@ export default function HomePage() {
             </div>
             <div style={styles.content}>
                 <Body />
-                <Body />
             </div>
         </div>
     );
