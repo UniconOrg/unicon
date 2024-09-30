@@ -11,7 +11,10 @@ const CursorAura: React.FC = () => {
 
     useEffect(() => {
         const handleMouseMove = (event: MouseEvent) => {
-            setCursorPos({ x: event.clientX, y: event.clientY });
+            setCursorPos({ 
+                x: event.clientX + window.scrollX, // Ajustar la posición x considerando el scroll
+                y: event.clientY + window.scrollY  // Ajustar la posición y considerando el scroll
+            });
         };
 
         window.addEventListener('mousemove', handleMouseMove);
