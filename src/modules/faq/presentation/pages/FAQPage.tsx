@@ -56,7 +56,7 @@ export default function FAQPage() {
     ];
 
     return (
-        <div className='body' id='FAQ'>
+        <div className='body-faq' id='FAQ'>
             <h1>Preguntas Frecuentes</h1>
             {faqs.map((faq, index) => (
                 <FAQItem key={index} question={faq.question} answer={faq.answer} />

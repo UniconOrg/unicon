@@ -1,4 +1,4 @@
-.body {
+.body-faq {
     width: 35%;
     text-align: center;
     align-content: center;
@@ -6,7 +6,7 @@
 }
 
 @media (max-width: 1200px) {
-    .body {
+    .body-faq {
         width: 55%;
 
     }
@@ -14,7 +14,7 @@
 }
 
 @media (max-width: 768px) {
-    .body {
+    .body-faq {
         width: 75%;
 
     }
@@ -22,7 +22,7 @@
 }
 
 @media (max-width: 480px) {
-    .body {
+    .body-faq {
         width: 90%;
 
     }
