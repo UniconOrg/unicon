@@ -2,6 +2,7 @@ import UAppBar from "../../../app_bar/presentation/UAppBar";
 
 import { CSSProperties } from 'react';
 import Body from "../sections/Body";
+import FAQPage from "../../../faq/presentation/pages/FAQPage";
 
 export default function HomePage() {
     return (
@@ -12,6 +13,7 @@ export default function HomePage() {
             <div style={styles.content}>
                 <Body />
             </div>
+            <FAQPage />
         </div>
     );
 }
