@@ -5,25 +5,14 @@ import UDrawer from './molecules/UDrawer';
 import GitHubButton from './atoms/GitHubButton';
 import InstagramButton from './atoms/InstagramButton';
 import { useNavigate } from 'react-router-dom';
+import navButtonsData from '../../app_bar/domain/use_case/navButtonsData';
+import NavButton from '../domain/entities/navButton';
 
-class NavButton {
-    label: string;
-    path: string;
-    constructor(label: string, path: string) {
-        this.label = label;
-        this.path = path;
-    }
-}
 
 
 export default function UAppBar() {
     const [activeButton, setActiveButton] = useState<string>('Inicio');
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-
-    const navButtons: NavButton[] = [
-        new NavButton('Inicio', '/'),
-        new NavButton('FAQ', '/faq'),
-    ];
 
     const handleButtonClick = (navButtonData: NavButton) => {
         setActiveButton(navButtonData.label);
@@ -50,7 +39,7 @@ export default function UAppBar() {
                 <img src="/favicon.png" alt="logo" className="logo" />
             </div>
             <div className="buttonsContainer">
-                {navButtons.map((element) => (
+                {navButtonsData.map((element) => (
                     <UButtonAppBar
                         key={element.label}
                         label={element.label}
@@ -69,7 +58,7 @@ export default function UAppBar() {
             <UDrawer
                 open={drawerOpen}
                 onClose={handleCloseDrawer}
-                onButtonClick={() => handleButtonClick(navButtons[0])}
+                onButtonClick={handleButtonClick}
             />
         </div>
     );
