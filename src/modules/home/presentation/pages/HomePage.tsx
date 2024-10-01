@@ -1,6 +1,8 @@
 
 import { CSSProperties } from 'react';
 import Body from "../sections/Body";
+import About from '../sections/About';
+import Mision from '../sections/Mision';
 
 export default function HomePage() {
     return (
@@ -8,6 +10,10 @@ export default function HomePage() {
 
             <div style={styles.content}>
                 <Body />
+            </div>
+            <div style={styles.content}>
+                <Mision />
+                <About />
             </div>
         </div>
     );
