@@ -7,6 +7,7 @@ import InstagramButton from './atoms/InstagramButton';
 import { useNavigate } from 'react-router-dom';
 import navButtonsData from '../../app_bar/domain/use_case/navButtonsData';
 import NavButton from '../domain/entities/navButton';
+import DiscordButton from './atoms/DiscordButton';
 
 
 
@@ -49,6 +50,7 @@ export default function UAppBar() {
                 ))}
                 <GitHubButton />
                 <InstagramButton />
+                <DiscordButton />
             </div>
             <div className="hamburger" onClick={handleHamburgerClick}>
                 { }
