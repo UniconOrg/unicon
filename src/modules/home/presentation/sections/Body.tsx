@@ -22,7 +22,7 @@ export default function Body() {
         <div className="body" id="Inicio">
             <div className='content'>
                 <img src="/unicon.png" alt="unicon" className="unicon-image" />
-                <p className="mission">Un faro de inspiración y comunidad para los visionarios tecnológicos del mañana.</p>
+                <p className="mission">Un faro de inspiración y comunidad para los visionarios del mañana.</p>
                 <CountDown />
                 <RegisterButton >
                     ¡Registrarme!
