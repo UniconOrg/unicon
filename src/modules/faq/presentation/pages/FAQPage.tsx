@@ -39,7 +39,7 @@ export default function FAQPage() {
         },
         {
             question: "¿Cómo puedo contactar a los organizadores?",
-            answer: "Nuestro correo es uniconhub@gmail.com"
+            answer: "Nuestro correo es soporte@unicon.mx"
         },
         {
             question: "¿Habrá opciones de comida y bebida?",
@@ -51,7 +51,7 @@ export default function FAQPage() {
         },
         {
             question: "¿Se puede cancelar o reembolsar la entrada?",
-            answer: "Claro siempre sera posible eso 72 hrs antes del evento, solo sera necesario que se comuniquen con nosotro en nuestro email uniconhub@gmail.com"
+            answer: "Claro siempre sera posible eso 72 hrs antes del evento, solo sera necesario que se comuniquen con nosotro en nuestro email soporte@unicon.mx"
         }
     ];
 
