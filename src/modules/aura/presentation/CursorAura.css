@@ -1,7 +1,24 @@
-.cursor-aura {
+@keyframes colorChange {
+    0% {
+        background: radial-gradient(circle, rgba(91, 38, 147, 0.269) 0%, rgba(221, 0, 255, 0.011) 100%);
+        box-shadow: 0 0 100px rgba(91, 38, 147, 0.131);
+    }
+    33% {
+        background: radial-gradient(circle, rgba(38, 147, 91, 0.269) 0%, rgba(0, 255, 221, 0.011) 100%);
+        box-shadow: 0 0 100px rgba(38, 147, 91, 0.131);
+    }
+    66% {
+        background: radial-gradient(circle, rgba(147, 91, 38, 0.269) 0%, rgba(255, 221, 0, 0.011) 100%);
+        box-shadow: 0 0 100px rgba(147, 91, 38, 0.131);
+    }
+    100% {
+        background: radial-gradient(circle, rgba(91, 38, 147, 0.269) 0%, rgba(221, 0, 255, 0.011) 100%);
+        box-shadow: 0 0 100px rgba(91, 38, 147, 0.131);
+    }
+}
 
+.cursor-aura {
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(91, 38, 147, 0.269) 0%, rgba(221, 0, 255, 0.011) 100%); /* Gradiente radial del centro al exterior */
-    box-shadow: 0 0 100px rgba(91, 38, 147, 0.131); /* Sombra del centro */
-    transition: all 0.08s ease-out; /* Transición suave */
+    transition: all 0.1s ease-out;
+    animation: colorChange 2s infinite;
 }
