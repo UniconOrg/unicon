@@ -1,0 +1,24 @@
+.app-background {
+    position: fixed; /* Fija la posición del fondo */
+    top: 0; /* Asegúrate de que empiece en la parte superior */
+    left: 0; /* Asegúrate de que empiece en la parte izquierda */
+    width: 100%; /* Ocupa todo el ancho */
+    height: 100vh;  /* Ocupa toda la altura de la ventana */
+    background: rgb(189, 189, 189); /* Color de fondo */
+    background: linear-gradient(10deg, rgb(29, 105, 164) 0%, rgb(41, 70, 183) 0%, rgb(43, 39, 49) 48%, rgb(100, 29, 89) 100%);
+    background-size: 300% 300%;
+    animation: gradient 10s ease infinite; /* Animación de gradiente */
+    z-index: -1; /* Colocar detrás de otros elementos */
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
