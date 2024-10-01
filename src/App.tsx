@@ -6,10 +6,15 @@ import FAQPage from './modules/faq/presentation/pages/FAQPage'
 import Footer from './modules/footer/presentation/Footer'
 import HomePage from './modules/home/presentation/pages/HomePage'
 
+const AppBackground: React.FC = () => {
+  return <div className="app-background"></div>;
+};
+
 function App() {
 
   return (
     <>
+    <AppBackground />
       <div style={styles.appBarContainer}>
         <UAppBar />
       </div>

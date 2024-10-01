@@ -13,25 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.gradient-bg-animation {
-  height: 100%;  
-  background: rgb(189, 189, 189);
-  background: linear-gradient(10deg, rgb(29, 105, 164) 0%, rgb(41, 70, 183) 0%, rgb(43, 39, 49) 48%, rgb(100, 29, 89) 100%);
-  background-size: 300% 300%;
-  animation: gradient 10s ease infinite;
-}
-
-@keyframes gradient {
-  0% {
-      background-position: 0% 50%;
-  }
-  50% {
-      background-position: 100% 50%;
-  }
-  100% {
-      background-position: 0% 50%;
-  }
-}
 
 
 body {
