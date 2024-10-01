@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import './FAQItem.css'; // Importar el archivo CSS
 
 interface FAQItemProps {
   question: string;
   answer: string;
 }
 
-const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
+export default function FAQItem({ question, answer }: FAQItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAnswer = () => {
@@ -13,13 +14,11 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
   };
 
   return (
-    <div style={{ marginBottom: '10px', border: '1px solid #ccc', borderRadius: '5px', padding: '10px' }}>
-      <h4 onClick={toggleAnswer} style={{ cursor: 'pointer' }}>
+    <div className="faq-item">
+      <h4 className="faq-question" onClick={toggleAnswer}>
         {question}
       </h4>
-      {isOpen && <p>{answer}</p>}
+      {isOpen && <p className="faq-answer">{answer}</p>}
     </div>
   );
 };
-
-export default FAQItem;

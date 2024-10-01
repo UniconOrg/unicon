@@ -2,6 +2,8 @@ import { useState } from 'react';
 import UButtonAppBar from './atoms/UButtonAppBar';
 import './UAppBar.css';
 import UDrawer from './molecules/UDrawer';
+import GitHubButton from './atoms/GitHubButton';
+import InstagramButton from './atoms/InstagramButton';
 
 
 export default function UAppBar() {
@@ -30,7 +32,7 @@ export default function UAppBar() {
                 <img src="/favicon.png" alt="logo" className="logo" />
             </div>
             <div className="buttonsContainer">
-                {['Inicio', 'FAQ', 'Conducta'].map((label) => (
+                {['Inicio', 'FAQ' ].map((label) => (
                     <UButtonAppBar
                         key={label}
                         label={label}
@@ -38,6 +40,8 @@ export default function UAppBar() {
                         onClick={() => handleButtonClick(label)}
                     />
                 ))}
+                <GitHubButton />
+                <InstagramButton />
             </div>
             <div className="hamburger" onClick={handleHamburgerClick}>
                 { }
