@@ -1,43 +1,33 @@
-import { CSSProperties } from 'react'
-import './App.css'
-import UAppBar from './modules/app_bar/presentation/UAppBar'
-import CursorAura from './modules/aura/presentation/CursorAura'
-import FAQPage from './modules/faq/presentation/pages/FAQPage'
-import Footer from './modules/footer/presentation/Footer'
-import HomePage from './modules/home/presentation/pages/HomePage'
+import './App.css';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import HomePage from './modules/home/presentation/pages/HomePage';
+import FAQPage from './modules/faq/presentation/pages/FAQPage';
+import AppLayout from './modules/app/presentation/layouts/AppLayout';
+import AnimatedPage from './modules/app/presentation/pages/AnimatedPage';
 
-const AppBackground: React.FC = () => {
-  return <div className="app-background"></div>;
-};
 
-function App() {
+function AnimatedRoutes() {
+  const location = useLocation();
 
   return (
-    <>
-    <AppBackground />
-      <div style={styles.appBarContainer}>
-        <UAppBar />
-      </div>
-      <HomePage />
-      <FAQPage />
-      <Footer />
-      <CursorAura />
-    </>
-  )
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<AnimatedPage><HomePage /></AnimatedPage>} />
+        <Route path="/faq" element={<AnimatedPage><FAQPage /></AnimatedPage>} />
+      </Routes>
+    </AnimatePresence>
+  );
 }
 
-const styles: {
-  appBarContainer: CSSProperties,
-} = {
-
-  appBarContainer: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    zIndex: 10,
-  },
-
-};
+function App() {
+  return (
+    <Router>
+      <AppLayout>
+        <AnimatedRoutes />
+      </AppLayout>
+    </Router>
+  );
+}
 
 export default App;

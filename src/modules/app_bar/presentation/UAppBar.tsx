@@ -4,18 +4,30 @@ import './UAppBar.css';
 import UDrawer from './molecules/UDrawer';
 import GitHubButton from './atoms/GitHubButton';
 import InstagramButton from './atoms/InstagramButton';
+import { useNavigate } from 'react-router-dom';
+
+class NavButton {
+    label: string;
+    path: string;
+    constructor(label: string, path: string) {
+        this.label = label;
+        this.path = path;
+    }
+}
 
 
 export default function UAppBar() {
     const [activeButton, setActiveButton] = useState<string>('Inicio');
     const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
-    const handleButtonClick = (label: string) => {
-        setActiveButton(label);
-        const element = document.getElementById(label);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' }); // Scroll suave hacia el elemento
-        }
+    const navButtons: NavButton[] = [
+        new NavButton('Inicio', '/'),
+        new NavButton('FAQ', '/faq'),
+    ];
+
+    const handleButtonClick = (navButtonData: NavButton) => {
+        setActiveButton(navButtonData.label);
+        handleNavigate(navButtonData.path);
     };
 
     const handleHamburgerClick = () => {
@@ -26,18 +38,24 @@ export default function UAppBar() {
         setDrawerOpen(false);
     };
 
+    const navigate = useNavigate();
+
+    const handleNavigate = (path: string) => {
+        navigate(path);
+    };
+
     return (
         <div className="appBar">
             <div className="logoContainer">
                 <img src="/favicon.png" alt="logo" className="logo" />
             </div>
             <div className="buttonsContainer">
-                {['Inicio', 'FAQ' ].map((label) => (
+                {navButtons.map((element) => (
                     <UButtonAppBar
-                        key={label}
-                        label={label}
-                        isActive={activeButton === label}
-                        onClick={() => handleButtonClick(label)}
+                        key={element.label}
+                        label={element.label}
+                        isActive={activeButton === element.label}
+                        onClick={() => handleButtonClick(element)}
                     />
                 ))}
                 <GitHubButton />
@@ -51,7 +69,7 @@ export default function UAppBar() {
             <UDrawer
                 open={drawerOpen}
                 onClose={handleCloseDrawer}
-                onButtonClick={handleButtonClick}
+                onButtonClick={() => handleButtonClick(navButtons[0])}
             />
         </div>
     );
