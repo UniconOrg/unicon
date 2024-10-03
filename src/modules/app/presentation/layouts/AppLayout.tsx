@@ -5,6 +5,7 @@ import './AppBackground.css'; // Importa el CSS del fondo
 import UAppBar from '../../../app_bar/presentation/UAppBar';
 import Footer from '../../../footer/presentation/Footer';
 import CursorAura from '../../../aura/presentation/CursorAura';
+import AppBackground from './AppBackground';
 
 type AppLayoutProps = {
   children: ReactNode; // Define a children como un prop
@@ -13,7 +14,7 @@ type AppLayoutProps = {
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
     <>
-      <div className="app-background"></div>
+      <AppBackground/>
       <div style={styles.appBarContainer}>
         <UAppBar />
       </div>
