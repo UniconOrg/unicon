@@ -3,7 +3,6 @@ import { CSSProperties } from 'react';
 import Body from "../sections/Body";
 import About from '../sections/About';
 import Mision from '../sections/Mision';
-import Ticket from '../../../button/presentation/Ticket';
 import AutoplayCarousel from './AutoplayCarousel';
 
 export default function HomePage() {
