@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 import './GridBackgroud.css'
 
-const AnimatedCamera: React.FC<{ fov: number }> = ({ fov }) => {
+const AnimatedCamera: React.FC<{ fov: number }> = () => {
     const { camera } = useThree();
 
     // Usamos useFrame para animar la cámara en cada frame
     useFrame(() => {
-        camera.fov = 70 + Math.abs(scrollY * 0.2);  // Actualizamos el fov de la cámara
-        camera.updateProjectionMatrix();  // Actualizamos la proyección después del cambio
+        if (camera instanceof THREE.PerspectiveCamera) {
+            camera.fov = 70 + Math.abs(scrollY * 0.2);  // Actualizamos el fov de la cámara
+            camera.updateProjectionMatrix();  // Actualizamos la proyección después del cambio
+        }
+
     });
 
     return null;
@@ -50,7 +52,7 @@ const GridBackground: React.FC = () => {
 
                 const newFov = 100 + (scrollY * 0.5); // Ajustamos el fov en función del scrollu
                 setFov(newFov);
-            }else{
+            } else {
                 setFov(270);
 
             }

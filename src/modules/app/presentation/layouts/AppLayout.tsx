@@ -4,7 +4,6 @@ import './AppLayout.css'; // Puedes crear un CSS para estilos adicionales si lo 
 import './AppBackground.css'; // Importa el CSS del fondo
 import UAppBar from '../../../app_bar/presentation/UAppBar';
 import Footer from '../../../footer/presentation/Footer';
-import CursorAura from '../../../aura/presentation/CursorAura';
 import AppBackground from './AppBackground';
 import GridBackground from './GridBackgroud';
 
