@@ -6,6 +6,7 @@ import UAppBar from '../../../app_bar/presentation/UAppBar';
 import Footer from '../../../footer/presentation/Footer';
 import CursorAura from '../../../aura/presentation/CursorAura';
 import AppBackground from './AppBackground';
+import GridBackground from './GridBackgroud';
 
 type AppLayoutProps = {
   children: ReactNode; // Define a children como un prop
@@ -14,29 +15,29 @@ type AppLayoutProps = {
 const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
     <>
-      <AppBackground/>
+      <AppBackground />
+      <GridBackground />
       <div style={styles.appBarContainer}>
         <UAppBar />
       </div>
       {children}
       <Footer />
-      <CursorAura />
     </>
   );
 };
 
 const styles: {
-    appBarContainer: CSSProperties,
-  } = {
-  
-    appBarContainer: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      zIndex: 10,
-    },
-  
-  };
+  appBarContainer: CSSProperties,
+} = {
+
+  appBarContainer: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    zIndex: 10,
+  },
+
+};
 
 export default AppLayout;
