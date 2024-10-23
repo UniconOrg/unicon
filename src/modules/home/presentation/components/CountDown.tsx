@@ -9,7 +9,7 @@ export default function CountDown() {
         hours?: string;
         minutes?: string;
         seconds?: string;
-    }>({days: '00', hours: '00', minutes: '00', seconds: '00'});
+    }>({ days: '00', hours: '00', minutes: '00', seconds: '00' });
 
     useEffect(() => {
         const targetDate = Date.UTC(2025, 0, 25, 16, 0, 0);
@@ -43,25 +43,67 @@ export default function CountDown() {
     }, []);
 
     return (
-        <div className="countDown">
+        <div>
+            <div className="countDown">
 
-            <div>
-                <p className="countDownTime">{timeLeft.days}</p>
-                <p className="countDownLabel">DAYS</p>
-            </div>
-            <div>
-                <p className="countDownTime">{timeLeft.hours}</p>
-                <p className="countDownLabel">HRS</p>
-            </div>
-            <div>
-                <p className="countDownTime">{timeLeft.minutes}</p>
-                <p className="countDownLabel">MIN</p>
-            </div>
-            <div>
-                <p className="countDownTime">{timeLeft.seconds}</p>
-                <p className="countDownLabel">SEC</p>
-            </div>
+                <div className="countDownItemColumn">
+                    <p className="countDownTime"
+                        style={{ fontSize: '4rem' }}
 
+                    >{timeLeft.days}</p>
+                    <p className="countDownLabel"
+                        style={{
+                            transform: 'rotate(270deg)',
+                            fontSize: '1.6rem'
+                        }}
+                    >Días</p>
+                </div>
+
+                <div className="countDownItemRow">
+                    <p className="countDownLabel"
+                        style={{ fontSize: '1.4rem' }}
+                    >Horas</p>
+                    <p className="countDownTime"
+                        style={{ 
+                            fontSize: '3rem', 
+                            marginTop: '0px', 
+                            transform: 'translateY(-15px)'
+                        }}
+                    >{timeLeft.hours}</p>
+                </div>
+
+
+                <p style={{ fontSize: '3.2rem', marginTop: "13px", marginBottom: '0px' }}>:</p>
+
+                <div className="countDownItemRow"
+                    style={{ marginTop: '10px' }}
+                >
+                    <p className="countDownLabel"
+                        style={{ fontSize: '1rem' }}
+                    >Minutos</p>
+                    <p className="countDownTime"
+                        style={{ 
+                            fontSize: '2.4rem',
+                            transform: 'translateY(-9px)'
+                        }}
+                    >{timeLeft.minutes}</p>
+                </div>
+                <p style={{ fontSize: '3.2rem', marginTop: "13px", marginBottom: '0px' }}>:</p>
+                <div className="countDownItemRow"
+                    style={{ marginTop: '20px' }}
+                >
+                    <p className="countDownLabel"
+                        style={{ fontSize: '0.7rem' }}
+                    >Segundos</p>
+                    <p className="countDownTime"
+                        style={{ 
+                            fontSize: '2rem', 
+                            transform: 'translateY(-7px)'
+                        }}
+                    >{timeLeft.seconds}</p>
+                </div>
+
+            </div>
         </div>
     );
 }
