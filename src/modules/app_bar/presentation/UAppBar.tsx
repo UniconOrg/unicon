@@ -38,22 +38,28 @@ export default function UAppBar() {
                 <tr>
                     <td>
                         <a href="#" className="nav-item">
-                            Boletos <i className="fas fa-ticket-alt"></i>
+                            Boletos
+
+                            <img src="/bar_icons/ticket.svg" alt="logo" className="app-bar-icon" />
+
                         </a>
                     </td>
                     <td>
                         <a href="#" className="nav-item">
-                            Ubicación <i className="fas fa-map-marker-alt"></i>
+                            Ubicación
+                            <img src="/bar_icons/ubication.svg" alt="logo" className="app-bar-icon" />
                         </a>
                     </td>
                     <td>
                         <a href="#" className="nav-item">
-                            FAQs <i className="fas fa-question-circle"></i>
+                            FAQs
+                            <img src="/bar_icons/faq.svg" alt="logo" className="app-bar-icon" />
                         </a>
                     </td>
                     <td>
                         <a href="#" className="nav-item">
-                            Contacto <i className="fas fa-headset"></i>
+                            Contacto
+                            <img src="/bar_icons/contact.svg" alt="logo" className="app-bar-icon" />
                         </a>
                     </td>
                 </tr>
