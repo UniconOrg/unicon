@@ -20,7 +20,7 @@ const UButton = styled(Button)(({ theme }) => ({
 export default function About() {
 
     const handleClick = () => {
-        window.open('https://www.instagram.com/unicon.hub/', '_blank'); // Cambia esta URL a tu repositorio
+        window.open('https://pvoxqrlhbb6.typeform.com/to/iVZe78iV', '_blank'); // Cambia esta URL a tu repositorio
     };
 
     return (
