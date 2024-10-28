@@ -4,6 +4,7 @@ import Body from "../sections/Body";
 import About from '../sections/About';
 import Mision from '../sections/Mision';
 import UbicationSection from '../sections/Ubication';
+import FAQPage from '../../../faq/presentation/pages/FAQPage';
 
 export default function HomePage() {
   return (
@@ -12,12 +13,17 @@ export default function HomePage() {
       <div style={styles.content}>
         <Body />
       </div>
-      
-        <UbicationSection />
+
+      <UbicationSection />
       <div style={styles.content}>
         <Mision />
         <About />
       </div>
+      <section id="faq-section">
+
+        <FAQPage />
+      </section>
+
 
     </div>
   );

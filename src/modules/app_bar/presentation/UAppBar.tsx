@@ -77,7 +77,7 @@ export default function UAppBar() {
                         </a>
                     </td>
                     <td>
-                        <a href="/faq" className="nav-item">
+                        <a href="#" className="nav-item" onClick={() => { manejarScroll("faq-section", navigate, location) }}>
                             FAQs
                             <img src="/bar_icons/faq.svg" alt="logo" className="app-bar-icon" />
                         </a>
