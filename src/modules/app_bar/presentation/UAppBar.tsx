@@ -57,7 +57,7 @@ export default function UAppBar() {
             <div className="logoContainer">
                 <a onClick={() => handleButtonClick(navButtonsData[0])}>
 
-                    <img src="/unicon.png" alt="logo" className="logo" />
+                    <img src="/favicon.png" alt="logo" className="logo" />
                 </a>
             </div>
             <table className="nav-table">
