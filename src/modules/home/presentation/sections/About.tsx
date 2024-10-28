@@ -17,22 +17,23 @@ const UButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-const openLinkInNewWindow = (url: string) => {
-    window.open(url, '_blank', 'noopener,noreferrer');
-};
-
 export default function About() {
+
+    const handleClick = () => {
+        window.open('https://www.instagram.com/unicon.hub/', '_blank'); // Cambia esta URL a tu repositorio
+    };
 
     return (
         <>
-
-
             <div className="about-cards-container">
 
                 <div className="about-card">
                     <h3>Quiero ser Speaker</h3>
                     <p>Comparte tu conocimiento en nuestro evento.</p>
-                    <UButton onClick={() => openLinkInNewWindow('https://pvoxqrlhbb6.typeform.com/to/iVZe78iV')}>Me gustaria ser Speaker</UButton>
+                    <div onClick={handleClick}>
+
+                        <UButton>Me gustaria ser Speaker</UButton>
+                    </div>
                 </div>
                 <div className="about-card">
                     <h3>Quiero ser Sponsor</h3>
