@@ -44,7 +44,7 @@ const BackGrid: React.FC = () => {
         <mesh position={[0, -1, -8]} rotation={[Math.PI / 2, 0, 0]}>
             <planeGeometry args={[80, 80, 128, 128]} />
             <meshStandardMaterial
-                color="#d1bce6"
+                color="#e3d5e9"
                 wireframe
                 side={THREE.DoubleSide}
             />

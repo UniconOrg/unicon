@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import './UAppBar.css';
 import UDrawer from './molecules/UDrawer';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import NavButton from '../domain/entities/navButton';
-
+import GitHubButton from './atoms/GitHubButton';
+import InstagramButton from './atoms/InstagramButton';
+import navButtonsData from '../../app_bar/domain/use_case/navButtonsData';
 
 
 export default function UAppBar() {
@@ -29,15 +31,39 @@ export default function UAppBar() {
         navigate(path);
     };
 
+    const manejarScroll = (id_element: string, navigate: any, location: any) => {
+        // Verificar si la ruta actual no es '/'
+        if (location.pathname !== '/') {
+            // Mover a la ruta '/'
+            navigate('/', { replace: true });
+            // Esperar a que se complete la navegación y luego hacer el scroll
+            setTimeout(() => {
+                const elemento = document.getElementById(id_element);
+                elemento?.scrollIntoView({ behavior: 'smooth' });
+            }, 300); // Puedes ajustar el tiempo de espera si es necesario
+        } else {
+            // Si ya está en '/', simplemente hacer el scroll
+            const elemento = document.getElementById(id_element);
+            elemento?.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    const location = useLocation();
+
     return (
+
+
         <div className="appBar">
             <div className="logoContainer">
-                <img src="/favicon.png" alt="logo" className="logo" />
+                <a onClick={() => handleButtonClick(navButtonsData[0])}>
+
+                    <img src="/unicon.png" alt="logo" className="logo" />
+                </a>
             </div>
             <table className="nav-table">
                 <tr>
                     <td>
-                        <a href="#" className="nav-item">
+                        <a href="#" className="nav-item" onClick={() => { manejarScroll("ticket-section", navigate, location) }}>
                             Boletos
 
                             <img src="/bar_icons/ticket.svg" alt="logo" className="app-bar-icon" />
@@ -45,19 +71,19 @@ export default function UAppBar() {
                         </a>
                     </td>
                     <td>
-                        <a href="#" className="nav-item">
+                        <a href="#" className="nav-item" onClick={() => { manejarScroll("ubication-section", navigate, location) }}>
                             Ubicación
                             <img src="/bar_icons/ubication.svg" alt="logo" className="app-bar-icon" />
                         </a>
                     </td>
                     <td>
-                        <a href="#" className="nav-item">
+                        <a href="/faq" className="nav-item">
                             FAQs
                             <img src="/bar_icons/faq.svg" alt="logo" className="app-bar-icon" />
                         </a>
                     </td>
                     <td>
-                        <a href="#" className="nav-item">
+                        <a href="#" className="nav-item" onClick={() => { manejarScroll("footer-section", navigate, location) }}>
                             Contacto
                             <img src="/bar_icons/contact.svg" alt="logo" className="app-bar-icon" />
                         </a>
@@ -66,11 +92,18 @@ export default function UAppBar() {
             </table>
 
             <div className="right-container">
-                <button className="login-button">Login</button>
-                <div className="hamburger" onClick={handleHamburgerClick}>
+
+                
+                <ul className="footer-links" style={{ display: 'flex', justifyContent: 'center', gap: '30px', marginTop: '20px', marginBottom: '20px', }}>
+                    <GitHubButton />
+                    <InstagramButton />
+                    <div style={{ width: "20px" }}></div>
+                </ul>
+            </div>
+
+            <div className="hamburger" onClick={handleHamburgerClick}>
                     &#9776;
                 </div>
-            </div>
 
             <UDrawer
                 open={drawerOpen}

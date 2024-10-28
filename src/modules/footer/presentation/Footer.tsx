@@ -5,7 +5,7 @@ import './Footer.css';
 
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer" id='footer-section'>
       <div className="footer-content">
         <p>&copy; {new Date().getFullYear()} UniconHub. Todos los derechos reservados.</p>
         <ul className="footer-links" style={{ display: 'flex', justifyContent: 'center', gap: '30px', marginTop: '20px', marginBottom: '20px', }}>

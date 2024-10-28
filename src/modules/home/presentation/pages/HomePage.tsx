@@ -3,7 +3,7 @@ import { CSSProperties } from 'react';
 import Body from "../sections/Body";
 import About from '../sections/About';
 import Mision from '../sections/Mision';
-import AutoplayCarousel from './AutoplayCarousel';
+import UbicationSection from '../sections/Ubication';
 
 export default function HomePage() {
   return (
@@ -12,13 +12,13 @@ export default function HomePage() {
       <div style={styles.content}>
         <Body />
       </div>
+      
+        <UbicationSection />
       <div style={styles.content}>
         <Mision />
         <About />
       </div>
-      <div style={styles.content}>
-        <AutoplayCarousel />
-      </div>
+
     </div>
   );
 }

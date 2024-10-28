@@ -2,8 +2,9 @@
     width: 55%;
     height: 100vh;
     text-align: center;
-    align-content: center;
+    align-content: start;
     margin: auto;
+    padding-top: 25vh;
 }
 
 .unicon-image {
@@ -15,7 +16,13 @@
     margin-top: 20px;
 }
 
-.p-register{
+.info {
+    font-size: 1.2rem;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.p-register {
     color: rgb(156, 83, 196);
     font-weight: bold;
     font-size: 1.5rem;
@@ -43,9 +50,14 @@
         font-size: 1.2rem;
         width: 80%;
         margin: auto;
-        height: 30vh;
         align-items: center;
         display: flex;
+        padding-top: 20px;
+    }
+
+    .info {
+        font-size: 0.9rem;
+        
     }
 
     .unicon-image {

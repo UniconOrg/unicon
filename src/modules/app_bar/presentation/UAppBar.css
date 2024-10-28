@@ -5,7 +5,7 @@
     padding-top: 10px;
     padding-left: 30px;
     padding-right: 30px;
-    max-width: 1200px; /*Disable with have login buton*/
+    /*max-width: 1200px; Disable with have login buton*/
 }
 
 .appBar {
@@ -15,16 +15,15 @@
 }
 
 .logoContainer{
-    flex: 1; /*Disable with have login buton*/
+    /*flex: 1; /*Disable with have login buton*/
 }
 
 .logo {
-    width: 50px;
     height: 50px;
 }
 
 .right-container {
-    display: none; /*Change to flex with have login button*/
+    display: flex; /*Change to flex with have login button*/
     align-items: center;
     gap: 1rem;
 }
@@ -92,8 +91,12 @@
 }
 
 
-@media (max-width: 768px) {
-    .buttonsContainer {
+@media (max-width: 1100px) {
+    .nav-table{
+        display: none;
+    }
+
+    .right-container {
         display: none;
     }
 
