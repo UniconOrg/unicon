@@ -13,7 +13,7 @@
     border: 1px solid rgba(0, 0, 0, 0.16);
 }
 
-.countDownItemColumn{
+.countDownItemColumn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,18 +22,40 @@
 
 }
 
-.countDownItemRow{
+.countDownItemRow {
     justify-content: center;
     align-items: center;
 }
 
-.countDownTime {
-    font-size: 3rem;
+.countDownTimeDays {
+    font-size: 4rem;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
-.countDownLabel{
+.countDownTimeHours {
+    font-size: 3rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    transform: translateY(-15px);
+}
+
+.countDownTimeMins {
+    font-size: 2.4rem;
+    transform: translateY(-9px);
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+.countDownTimeSec {
+    font-size: 2.4rem;
+    transform: translateY(-7px);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.countDownLabel {
     margin: 1px;
 }
 
@@ -44,3 +66,16 @@
 }
 
 
+@media (max-width: 768px) {
+
+    .countDownItemColumn {
+
+        margin-right: 5px;
+    }
+
+    .countDownItemRowSec {
+        display: none;
+    }
+
+
+}
