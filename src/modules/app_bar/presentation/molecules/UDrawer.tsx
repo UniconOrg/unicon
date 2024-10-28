@@ -26,7 +26,7 @@ const UDrawer: React.FC<UDrawerProps> = ({ open, onClose }) => {
             setTimeout(() => {
                 const elemento = document.getElementById(id_element);
                 elemento?.scrollIntoView({ behavior: 'smooth' });
-            }, 300); // Puedes ajustar el tiempo de espera si es necesario
+            }, 500); // Puedes ajustar el tiempo de espera si es necesario
         } else {
             // Si ya está en '/', simplemente hacer el scroll
             const elemento = document.getElementById(id_element);
@@ -39,24 +39,24 @@ const UDrawer: React.FC<UDrawerProps> = ({ open, onClose }) => {
     return (
         <Drawer anchor="right" open={open} onClose={onClose}>
             <div className='drawer'>
-                <a href="#" className="nav-item" onClick={() => { manejarScroll("ticket-section", navigate, location) }}>
+                <a href="" className="nav-item" onClick={() => { manejarScroll("ticket-section", navigate, location) }}>
                     Boletos
 
                     <img src="/bar_icons/ticket.svg" alt="logo" className="app-bar-icon" />
 
                 </a>
 
-                <a href="#" className="nav-item" onClick={() => { manejarScroll("ubication-section", navigate, location) }}>
+                <a href="" className="nav-item" onClick={() => { manejarScroll("ubication-section", navigate, location) }}>
                     Ubicación
                     <img src="/bar_icons/ubication.svg" alt="logo" className="app-bar-icon" />
                 </a>
 
-                <a href="/faq" className="nav-item">
+                <a href="" className="nav-item" onClick={() => { manejarScroll("faq-section", navigate, location) }}>
                     FAQs
                     <img src="/bar_icons/faq.svg" alt="logo" className="app-bar-icon" />
                 </a>
 
-                <a href="#" className="nav-item" onClick={() => { manejarScroll("footer-section", navigate, location) }}>
+                <a href="" className="nav-item" onClick={() => { manejarScroll("footer-section", navigate, location) }}>
                     Contacto
                     <img src="/bar_icons/contact.svg" alt="logo" className="app-bar-icon" />
                 </a>
