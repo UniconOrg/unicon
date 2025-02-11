@@ -12,7 +12,7 @@ export default function CountDown() {
     }>({ days: '00', hours: '00', minutes: '00', seconds: '00' });
 
     useEffect(() => {
-        const targetDate = Date.UTC(2025, 0, 25, 16, 0, 0);
+        const targetDate = Date.UTC(2025, 5, 21, 16, 0, 0);
 
         const interval = setInterval(() => {
             const now = new Date().getTime();
