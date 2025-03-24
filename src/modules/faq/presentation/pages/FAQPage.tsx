@@ -4,7 +4,7 @@ const FAQs = [
     {
         number: 1,
         question: "¿Cuándo y dónde será el evento?",
-        answer: "¡El evento será el 25 de enero de 2024 en la Ciudad de México! Prepárate para un día increíble.",
+        answer: "¡El evento será el 30 de agosto de 2025 en la Ciudad de México! Prepárate para un día increíble.",
     },
     {
         number: 2,
@@ -14,7 +14,7 @@ const FAQs = [
     {
         number: 3,
         question: "¿Cómo puedo registrarme?",
-        answer: "El registro estará disponible desde el 15 de noviembre de 2024, aquí mismo en nuestra página. ¡No te lo pierdas!",
+        answer: "El registro estará disponible desde el 30 de junio de 2025, aquí mismo en nuestra página. ¡No te lo pierdas!",
     },
     {
         number: 4,

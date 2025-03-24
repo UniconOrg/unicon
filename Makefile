@@ -1,5 +1,5 @@
 build:
-	bun run build
+	pnpm run build
 
 deploy: *
 	rm -rf deploy/*
