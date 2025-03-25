@@ -59,7 +59,7 @@ const FAQs = [
     {
         number: 12,
         question: "¿Puedo cancelar o reembolsar mi entrada?",
-        answer: "¡Claro! Puedes cancelarla hasta 72 horas antes del evento escribiéndonos a soporte@unicon.mx.",
+        answer: "¡Claro! Puedes cancelarla hasta 72 horas antes del evento escribiéndonos a soporte@uniconhub.org.",
     },
 ];
 
