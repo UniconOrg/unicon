@@ -44,7 +44,7 @@ const FAQs = [
     {
         number: 9,
         question: "¿Cómo contacto a los organizadores?",
-        answer: "Puedes escribirnos a soporte@unicon.mx para cualquier duda.",
+        answer: "Puedes escribirnos a soporte@uniconhub.org para cualquier duda.",
     },
     {
         number: 10,
