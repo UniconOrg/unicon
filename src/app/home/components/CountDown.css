@@ -1,0 +1,81 @@
+.countDown {
+    display: inline-flex;
+    justify-content: center;
+    gap: 1px;
+    background-color: rgba(0, 0, 0, 0.22);
+    border-radius: 15px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.20);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(0, 0, 0, 0.16);
+}
+
+.countDownItemColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+
+
+}
+
+.countDownItemRow {
+    justify-content: center;
+    align-items: center;
+}
+
+.countDownTimeDays {
+    font-size: 4rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.countDownTimeHours {
+    font-size: 3rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    transform: translateY(-15px);
+}
+
+.countDownTimeMins {
+    font-size: 2.4rem;
+    transform: translateY(-9px);
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+
+.countDownTimeSec {
+    font-size: 2.4rem;
+    transform: translateY(-7px);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.countDownLabel {
+    margin: 1px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media (max-width: 768px) {
+
+    .countDownItemColumn {
+
+        margin-right: 5px;
+    }
+
+    .countDownItemRowSec {
+        display: none;
+    }
+
+
+}
