@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AppBackground from "./components/AppBackground";
 import GridBackground from "./components/GridBackgroud";
+import Footer from "./components/Footer";
+import UAppBar from "./components/UAppBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +38,9 @@ export default function RootLayout({
           <GridBackground/>
         </div>
         <div className="absolute inset-0 content-wrapper">
+        <UAppBar></UAppBar>
           {children}
+          <Footer></Footer>
         </div>
       </body>
     </html>
