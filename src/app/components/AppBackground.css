@@ -1,0 +1,72 @@
+.app-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -2;
+    background: linear-gradient(10deg, rgb(29, 105, 164) 0%, rgb(41, 70, 183) 0%, rgb(43, 39, 49) 48%, rgb(100, 29, 89) 100%);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+}
+
+.gradient-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.gradient-layer-1 {
+    background: linear-gradient(
+        45deg,
+        #fafbff40 0%,
+        #cba1ff40 25%,
+        #4830ff40 50%,
+        #2194ff40 75%,
+        #5777fa40 100%
+    );
+    background-size: 400% 400%;
+    animation: moveGradient 15s ease infinite;
+}
+
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.7) 0%,
+        rgba(255, 255, 255, 0.3) 40%,
+        rgba(255, 255, 255, 0) 70%
+    );
+    transform: scale(0);
+    animation: ripple 4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    pointer-events: none;
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseGradient {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.2); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
