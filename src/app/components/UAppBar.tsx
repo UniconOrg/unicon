@@ -44,7 +44,7 @@ export default function UAppBar() {
         </div>
 
         {/* Menú central */}
-        <nav className="flex bg-[#2d0142] rounded-3xl overflow-hidden border border-white text-white divide-x-3 divide-white/50 text-2xl p-2">
+        <nav className="flex bg-[#2d0142] rounded-3xl overflow-hidden border border-white text-white divide-x-3 divide-white/50 text-xl md:text-sm p-2 md:p-1">
           <NavItem href="#boletos" icon={<ConfirmationNumberIcon />} text="Boletos" />
           <NavItem href="#ubicacion" icon={<LocationOnIcon />} text="Ubicación" />
           <NavItem href="#faqs" icon={<LiveHelpIcon />} text="FAQs" />
@@ -53,10 +53,10 @@ export default function UAppBar() {
 
         {/* Redes sociales */}
         <div className="flex items-center gap-4 text-white text-xl">
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/UniconOrg" target="_blank" rel="noopener noreferrer">
             <GitHubIcon />
           </a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/unicon.hub" target="_blank" rel="noopener noreferrer">
             <InstagramIcon />
           </a>
         </div>
