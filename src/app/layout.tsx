@@ -5,6 +5,7 @@ import AppBackground from "./components/AppBackground";
 import GridBackground from "./components/GridBackgroud";
 import Footer from "./components/Footer";
 import UAppBar from "./components/UAppBar";
+import BannerFollowInstagram from "./components/banners/follow-instagram";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,16 +32,23 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}
       >
+
         <div className="fixed inset-0">
           <AppBackground />
         </div>
         <div className="fixed inset-0">
-          <GridBackground/>
+          <GridBackground />
         </div>
         <div className="absolute inset-0 content-wrapper">
-        <UAppBar></UAppBar>
+          <div className="hidden md:block">
+            <UAppBar />
+          </div>
           {children}
-          <Footer></Footer>
+
+          <div className="fixed bottom-0 left-0 right-0 z-50">
+            <BannerFollowInstagram />
+          </div>
+          <Footer />
         </div>
       </body>
     </html>
