@@ -20,7 +20,7 @@ RUN \
 
 COPY src ./src
 COPY public ./public
-COPY messages ./messages
+#COPY messages ./messages
 COPY postcss.config.mjs .
 COPY next.config.ts .
 COPY tsconfig.json .
