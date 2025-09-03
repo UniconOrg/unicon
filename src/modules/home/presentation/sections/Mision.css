@@ -1,36 +1,87 @@
 .mision-cards-container {
     display: grid;
-    gap: 20px;
-    padding: 20px;
-    width: 35%;
-    margin: auto;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    padding: var(--space-xl) var(--space-lg);
+    max-width: 800px;
+    margin: var(--space-2xl) auto;
 }
 
 .mision-card {
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid #ccc;
+    background: var(--surface-bg);
+    backdrop-filter: blur(15px);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-subtle);
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
 }
 
-.mision-cards-container {
-    grid-template-columns: 1fr;
+.mision-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--accent-gradient);
+    transform: scaleX(0);
+    transition: var(--transition-normal);
+}
+
+.mision-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-accent);
+    transform: translateY(-8px);
+    box-shadow: var(--glow-accent);
+}
+
+.mision-card:hover::before {
+    transform: scaleX(1);
+}
+
+.mision-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 var(--space-md) 0;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mision-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1.05rem;
 }
 
 @media (max-width: 1199px) {
     .mision-cards-container {
-        width: 65%;
+        max-width: 700px;
+        padding: var(--space-lg) var(--space-md);
     }
 }
 
 @media (max-width: 720px) {
     .mision-cards-container {
-        width: 80%;
+        max-width: 100%;
+        padding: var(--space-lg) var(--space-sm);
+        margin: var(--space-xl) auto;
     }
-}
-
-
-@media (min-width: 1200px) {
-
     
+    .mision-card {
+        padding: var(--space-lg);
+    }
+    
+    .mision-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .mision-card p {
+        font-size: 1rem;
+    }
 }

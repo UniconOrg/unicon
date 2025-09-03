@@ -1,20 +1,60 @@
 
 .drawer {
-    width: 50vw;
-    background-color: rgb(20, 13, 30);
+    width: 60vw;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(20px);
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding-top: 20vh;
+    border-left: 1px solid var(--border-subtle);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .drawer > * {
     margin: auto;
+    width: 80%;
+}
+
+.drawer .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md) var(--space-lg);
+    margin: var(--space-xs) 0;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    gap: var(--space-sm);
+    border-radius: var(--radius-md);
+    background: var(--surface-bg);
+    border: 1px solid var(--border-subtle);
+    transition: var(--transition-normal);
+}
+
+.drawer .nav-item:hover {
+    background: var(--surface-hover);
+    color: var(--text-accent);
+    transform: translateX(-5px);
+    border-color: var(--border-accent);
+    box-shadow: var(--glow-primary);
+}
+
+.drawer .app-bar-icon {
+    height: 22px;
+    width: 22px;
+    filter: brightness(0) invert(1);
+    transition: var(--transition-normal);
+}
+
+.drawer .nav-item:hover .app-bar-icon {
+    filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(139, 92, 246, 0.6));
 }
 
 @media (max-width: 480px) {
     .drawer {
-        width: 80vw;
+        width: 85vw;
     }
 }

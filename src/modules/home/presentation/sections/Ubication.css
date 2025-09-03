@@ -1,33 +1,93 @@
-/* styles.css */
 .ubiaction-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 75vh;
-    /* Ajusta según sea necesario */
+    min-height: 80vh;
+    padding: var(--space-2xl) var(--space-lg);
+    margin: var(--space-2xl) 0;
+}
+
+.ubiaction-container h2 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 var(--space-md) 0;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ubiaction-container p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 var(--space-xl) 0;
+    max-width: 600px;
 }
 
 .map {
     height: 400px;
-    width: 50%;
+    width: min(90%, 800px);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    border: 2px solid var(--border-subtle);
+    box-shadow: var(--glow-primary);
+    transition: var(--transition-normal);
 }
 
-.ubiaction-container h2,
-.ubiaction-container p {
-    margin: 0;
-    padding: 10px 0;
+.map:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--glow-primary), 0 15px 40px rgba(139, 92, 246, 0.3);
+    border-color: var(--border-accent);
+}
+
+/* Leaflet custom styling */
+.leaflet-container {
+    background: var(--primary-bg) !important;
+    font-family: inherit !important;
+}
+
+.leaflet-popup-content-wrapper {
+    background: var(--surface-bg) !important;
+    color: var(--text-primary) !important;
+    border-radius: var(--radius-md) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid var(--border-subtle) !important;
+}
+
+.leaflet-popup-tip {
+    background: var(--surface-bg) !important;
 }
 
 @media (max-width: 1200px) {
-    .map{
-        width: 75%;
+    .map {
+        width: min(85%, 700px);
+    }
+    
+    .ubiaction-container {
+        padding: var(--space-xl) var(--space-md);
     }
 }
 
 @media (max-width: 768px) {
-    .map{
-        width: 85%;
+    .map {
+        width: min(95%, 600px);
+        height: 350px;
+    }
+    
+    .ubiaction-container {
+        padding: var(--space-lg) var(--space-sm);
+        min-height: 70vh;
+    }
+    
+    .ubiaction-container h2 {
+        margin-bottom: var(--space-sm);
+    }
+    
+    .ubiaction-container p {
+        font-size: 1rem;
+        margin-bottom: var(--space-lg);
     }
 }

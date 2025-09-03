@@ -4,19 +4,79 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    perspective: 1000px; /* Añade perspectiva para el efecto 3D */
+    perspective: 1000px;
 }
 
-.red-container {
-    background-color: red;
-    padding: 16px;
-    border-radius: 4px;
-    color: white;
-    height: 300px;
+.modern-ticket {
+    background: var(--primary-gradient);
+    padding: var(--space-lg) var(--space-xl);
+    border-radius: var(--radius-xl);
+    color: var(--text-primary);
+    height: auto;
+    min-height: 200px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     aspect-ratio: 2 / 1;
-    transition: transform 0.1s ease; /* Suaviza la transformación */
-    transform-style: preserve-3d; /* Mantiene el efecto 3D */
+    transition: var(--transition-normal);
+    transform-style: preserve-3d;
+    border: 2px solid var(--border-accent);
+    box-shadow: var(--glow-primary);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.modern-ticket::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: var(--transition-slow);
+}
+
+.modern-ticket:hover::before {
+    left: 100%;
+}
+
+.modern-ticket:hover {
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: var(--glow-primary), 0 20px 40px rgba(139, 92, 246, 0.4);
+}
+
+.ticket-content {
+    text-align: center;
+    z-index: 1;
+}
+
+.ticket-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.ticket-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .modern-ticket {
+        padding: var(--space-md) var(--space-lg);
+        min-height: 150px;
+    }
+    
+    .ticket-title {
+        font-size: 1.3rem;
+    }
+    
+    .ticket-subtitle {
+        font-size: 0.9rem;
+    }
 }
