@@ -10,7 +10,7 @@ type Props = {
     location = "CDMX, MX",
   }: Props) {
     return (
-      <div className="w-full bg-primary text-white rounded-md px-6 py-5">
+      <div className="w-full bg-primary text-white rounded-md px-6">
         <div className="flex items-center justify-between">
           {/* Izquierda: Mes + días */}
           <div className="flex items-center gap-3">

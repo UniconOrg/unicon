@@ -1,28 +1,38 @@
 // src/components/Hero.tsx
-import Image from "next/image";
 import EventHeader from "../molecule/EventHeader";
 import IntroBlock from "../molecule/IntroBlock";
 import CallToActionLogin from "../molecule/CallToActionLogin";
 import VisionGrid from "../molecule/VisionGrid";
 
-// Ejemplo
 export default function Hero() {
-    return (
-        <section className="w-full  min-h-dvh bg-primary p-3">
-            <div className="grid grid-cols-5 grid-rows-4 min-h-dvh">
-                <div className="col-span-3 flex items-center border-1 border-white">
-                    <EventHeader />
-                </div>
-                <div className="col-span-3 row-span-3 col-start-1 row-start-2 border-1 border-white">
-                    <IntroBlock />
-                </div>
-                <div className="col-span-2 row-span-2 col-start-4 row-start-1 h-full border-1 border-white">
-                    <CallToActionLogin />
-                </div>
-                <div className="col-span-2 row-span-2 col-start-4 row-start-3 border-1 border-white">
-                    <VisionGrid />
-                </div>
-            </div>
-        </section>
-    );
+  return (
+    <section className="w-full bg-primary">
+      <div
+        className="
+          flex flex-col min-h-dvh
+          md:grid md:grid-cols-5 md:grid-rows-4
+        "
+      >
+        {/* EventHeader */}
+        <div className="flex items-center border border-white md:col-span-3">
+          <EventHeader />
+        </div>
+
+        {/* IntroBlock */}
+        <div className="border border-white md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-2">
+          <IntroBlock />
+        </div>
+
+        {/* CallToActionLogin */}
+        <div className="border border-white md:col-span-2 md:row-span-2 md:col-start-4 md:row-start-1">
+          <CallToActionLogin />
+        </div>
+
+        {/* VisionGrid */}
+        <div className="border border-white md:col-span-2 md:row-span-2 md:col-start-4 md:row-start-3">
+          <VisionGrid />
+        </div>
+      </div>
+    </section>
+  );
 }
