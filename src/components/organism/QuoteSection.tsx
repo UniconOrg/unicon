@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import CTAButton from "@/components/atom/CTAButton";
 
 export default function QuoteSection() {
   return (
@@ -14,12 +14,7 @@ export default function QuoteSection() {
             visionarios del futuro"
           </p>
 
-          <button className="inline-flex items-center gap-4 rounded-full bg-white/90 py-2 pl-6 pr-2 text-xl font-normal text-[#1A1D3B] transition hover:bg-white">
-            El futuro Inicia aquí
-            <span className="w-14 h-14 flex items-center justify-center rounded-full bg-[#788BCE] hover:bg-[#2563eb] transition">
-              <ArrowRight className="w-7 h-7 text-white" strokeWidth={2} />
-            </span>
-          </button>
+          <CTAButton>El futuro Inicia aquí</CTAButton>
         </div>
 
         {/* Imagen del globo - posicionada a la derecha y más grande */}
