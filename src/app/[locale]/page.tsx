@@ -1,6 +1,4 @@
 // src/app/[locale]/page.tsx
-import { Fragment } from "react";
-
 import Sidebar from "@/components/molecule/SideBar";
 import { homeSections } from "@/sections/homeSections";
 
@@ -14,7 +12,9 @@ export default function Page() {
       <main className="flex-1 overflow-y-auto divide-y divide-white">
         {/* Renderizar las secciones preconfiguradas para evitar importarlas como componentes */}
         {homeSections.map(({ key, node }) => (
-          <Fragment key={key}>{node}</Fragment>
+          <div key={key} id={key}>
+            {node}
+          </div>
         ))}
       </main>
     </div>
