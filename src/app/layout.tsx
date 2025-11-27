@@ -16,12 +16,12 @@ export const metadata: Metadata = {
   title: "Unicon",
   description: "Unicon edition 2025",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/brand/unicon-mark.png",
+    shortcut: "/brand/unicon-mark.png",
+    apple: "/brand/unicon-mark.png",
     other: {
       rel: "icon",
-      url: "/favicon.png",
+      url: "/brand/unicon-mark.png",
     },
   },
 };
