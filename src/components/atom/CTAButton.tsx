@@ -16,7 +16,7 @@ export default function CTAButton({
   className = "",
 }: CTAButtonProps) {
   const baseStyles =
-    "inline-flex items-center gap-4 rounded-full py-2 pl-6 pr-2 text-xl font-normal transition";
+    "inline-flex w-fit items-center gap-4 rounded-full py-2 pl-6 pr-2 text-xl font-normal transition";
 
   const variantStyles =
     variant === "light"
