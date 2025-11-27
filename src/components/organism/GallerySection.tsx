@@ -7,6 +7,7 @@ import CTAButton from "@/components/atom/CTAButton";
 const allImages = [
   "/illustrations/unicon_1.png",
   "/illustrations/hero-speaker.png",
+  "/illustrations/unicon_2.png",
 ];
 
 function GalleryImage({ index }: { index: number }) {
