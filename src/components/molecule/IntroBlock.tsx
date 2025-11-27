@@ -7,7 +7,7 @@ type Props = {
 
 export default function IntroBlock({
     year = "2025",
-    logoSrc = "/unicon.png",
+    logoSrc = "/brand/unicon-wordmark.png",
 }: Props) {
     return (
         <section className="bg-primary text-white px-6 py-10 md:px-12 md:py-14">

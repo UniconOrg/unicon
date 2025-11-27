@@ -5,7 +5,7 @@ export default function Sidebar() {
     <aside className="w-16 h-full bg-[#22253F] flex flex-col items-center justify-between py-6 border-r border-white/20">
       {/* Logo */}
       <div className="mb-6">
-        <img src="/favicon.png" alt="Logo" className="w-8 h-8" />
+        <img src="/brand/unicon-mark.png" alt="Unicon logo" className="w-8 h-8" />
       </div>
 
       {/* Navegación */}

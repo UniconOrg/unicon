@@ -7,8 +7,8 @@ export default function VisionGrid() {
             {/* 1: Imagen */}
             <div className="relative">
                 <Image
-                    src="/image.png"
-                    alt="Speaker"
+                    src="/illustrations/hero-speaker.png"
+                    alt="Keynote speaker"
                     fill
                     className="object-cover"
                 />
