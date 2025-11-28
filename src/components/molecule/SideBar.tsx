@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Home, Ticket, MapPin, HelpCircle, Phone, User } from "lucide-react";
 
@@ -54,8 +55,8 @@ export default function Sidebar() {
   return (
     <aside className="w-16 h-full bg-[#22253F] flex flex-col items-center justify-between py-6 border-r border-white/20">
       {/* Logo */}
-      <div className="mb-6">
-        <img src="/brand/unicon-mark.png" alt="Unicon logo" className="w-8 h-8" />
+      <div className="mb-6 relative w-8 h-8">
+        <Image src="/brand/unicon-mark.png" alt="Unicon logo" fill className="object-contain" />
       </div>
 
       {/* Navegación */}
