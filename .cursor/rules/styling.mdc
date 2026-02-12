@@ -1,0 +1,130 @@
+---
+description: Reglas de estilos con Tailwind CSS 4 para el proyecto Unicon
+globs: "**/*.{tsx,css}"
+alwaysApply: false
+---
+
+# Estilos — Tailwind CSS 4 — Unicon Frontend
+
+## Principios Generales
+
+### Tailwind First
+- ✅ Usar **clases de Tailwind CSS** como método principal de estilado.
+- ✅ Usar `globals.css` solo para estilos base y custom properties CSS.
+- ❌ **NUNCA** usar CSS modules ni styled-components — Tailwind es la solución.
+- ❌ **NUNCA** usar estilos inline (`style={{ }}`) excepto para valores dinámicos calculados.
+- ❌ **NUNCA** usar `!important` en Tailwind ni en CSS.
+
+### Tailwind CSS 4
+- El proyecto usa **Tailwind CSS v4** con el nuevo engine basado en Rust.
+- Usar la nueva sintaxis de configuración basada en CSS (`@theme`) en vez de `tailwind.config.ts`.
+- Los colores, spacing, y breakpoints se definen en `globals.css` con `@theme`.
+
+## Convenciones de Clases
+
+### Orden de Clases
+Seguir un orden lógico para las clases de Tailwind:
+
+1. **Layout**: `flex`, `grid`, `block`, `inline`, `hidden`
+2. **Posicionamiento**: `relative`, `absolute`, `fixed`, `sticky`
+3. **Dimensiones**: `w-*`, `h-*`, `min-*`, `max-*`
+4. **Espaciado**: `p-*`, `m-*`, `gap-*`
+5. **Tipografía**: `text-*`, `font-*`, `leading-*`, `tracking-*`
+6. **Colores**: `bg-*`, `text-*` (color), `border-*`
+7. **Bordes**: `border`, `rounded-*`
+8. **Efectos**: `shadow-*`, `opacity-*`
+9. **Transiciones**: `transition-*`, `duration-*`
+10. **Responsive**: `sm:`, `md:`, `lg:`, `xl:`
+11. **Estados**: `hover:`, `focus:`, `active:`, `disabled:`
+12. **Dark mode**: `dark:`
+
+### Ejemplo
+```tsx
+<div className="flex items-center justify-between w-full max-w-4xl px-6 py-4 text-lg font-semibold text-gray-900 bg-white border border-gray-200 rounded-xl shadow-sm transition-all duration-200 hover:shadow-md md:px-8 lg:max-w-6xl dark:bg-gray-800 dark:text-white">
+```
+
+## Responsive Design
+
+### Mobile First
+- ✅ Diseñar **mobile first** — estilos base son para mobile.
+- ✅ Usar breakpoints para escalar hacia pantallas más grandes:
+  ```tsx
+  // ✅ Mobile first
+  <div className="px-4 md:px-8 lg:px-16">
+
+  // ❌ Desktop first (evitar)
+  <div className="px-16 md:px-8 sm:px-4">
+  ```
+- Breakpoints de Tailwind: `sm` (640px), `md` (768px), `lg` (1024px), `xl` (1280px), `2xl` (1536px).
+
+### Contenedores
+- ✅ Usar `max-w-*` con `mx-auto` para centrar contenido.
+- ✅ Mantener ancho máximo de contenido legible (~1280px).
+
+## Diseño y Consistencia
+
+### Sistema de Espaciado
+- ✅ Usar la escala de spacing de Tailwind (4, 8, 12, 16, 20, 24, 32, 40, 48, 64).
+- ❌ **NUNCA** usar valores arbitrarios (`[13px]`, `[7rem]`) si existe un valor de la escala cercano.
+- Los valores arbitrarios son aceptables SOLO para valores de diseño exactos que no encajan en la escala.
+
+### Colores
+- ✅ Definir la paleta de colores del proyecto usando CSS custom properties en `@theme`.
+- ✅ Usar nombres semánticos para colores: `primary`, `secondary`, `accent`, `muted`, `destructive`.
+- ❌ **NUNCA** hardcodear colores hex/rgb directamente en clases. Usar variables de tema.
+
+### Tipografía
+- ✅ Usar las fuentes configuradas en `fonts.ts` (Geist Sans y Geist Mono).
+- ✅ Mantener una escala tipográfica consistente.
+- ✅ Usar `antialiased` (ya configurado globalmente).
+
+## Clases Condicionales
+
+### Utility para Clases Dinámicas
+- ✅ Crear/usar una función `cn()` (clsx + tailwind-merge) para combinar clases:
+  ```typescript
+  // src/lib/utils.ts
+  import { clsx, type ClassValue } from 'clsx';
+  import { twMerge } from 'tailwind-merge';
+
+  export function cn(...inputs: ClassValue[]): string {
+    return twMerge(clsx(inputs));
+  }
+  ```
+- ✅ Usar `cn()` para clases condicionales:
+  ```tsx
+  <button className={cn(
+    'px-4 py-2 rounded-lg font-medium transition-colors',
+    variant === 'primary' && 'bg-blue-600 text-white hover:bg-blue-700',
+    variant === 'secondary' && 'bg-gray-200 text-gray-900 hover:bg-gray-300',
+    disabled && 'opacity-50 cursor-not-allowed',
+    className,
+  )}>
+  ```
+
+## Animaciones
+
+### Reglas de Animaciones
+- ✅ Usar las utilidades de transición de Tailwind: `transition-*`, `duration-*`, `ease-*`.
+- ✅ Para animaciones complejas, definir `@keyframes` en `globals.css`.
+- ✅ Respetar `prefers-reduced-motion`:
+  ```tsx
+  <div className="transition-transform duration-300 motion-reduce:transition-none">
+  ```
+- ❌ **NUNCA** usar animaciones que distraigan o causen motion sickness.
+- ✅ Mantener duraciones cortas: 150ms-300ms para micro-interacciones.
+
+## Accesibilidad Visual
+- ✅ Asegurar contraste mínimo WCAG AA (4.5:1 para texto normal, 3:1 para texto grande).
+- ✅ No depender solo del color para transmitir información.
+- ✅ Usar `focus-visible:` para estilos de focus accesibles:
+  ```tsx
+  <button className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+  ```
+- ✅ Asegurar targets de clic/tap de al menos 44x44px en mobile.
+
+## Dark Mode
+- ✅ Si se implementa dark mode, usar la estrategia `class` de Tailwind.
+- ✅ Definir variables CSS para ambos temas.
+- ✅ Usar `dark:` prefix de Tailwind para overrides.
+- ✅ Respetar `prefers-color-scheme` del sistema como default.

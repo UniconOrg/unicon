@@ -1,0 +1,99 @@
+---
+description: Mejores prácticas de Next.js 15 App Router y React 19 para el proyecto Unicon
+globs: src/app/**/*
+alwaysApply: true
+---
+
+# Next.js 15 + React 19 — Unicon Frontend
+
+## App Router
+
+### Estructura de Rutas
+- Usar **App Router** exclusivamente. No usar Pages Router.
+- Las rutas dinámicas van entre corchetes: `[locale]`, `[id]`, `[slug]`.
+- Layouts compartidos en `layout.tsx` al nivel correspondiente.
+- Loading states con `loading.tsx`.
+- Error boundaries con `error.tsx` (debe ser Client Component).
+- Not found con `not-found.tsx`.
+
+### Server Components vs Client Components
+- **Por defecto todo es Server Component**. Solo agregar `'use client'` cuando sea estrictamente necesario.
+- Necesitas `'use client'` cuando:
+  - Usas hooks de React (`useState`, `useEffect`, `useRef`, etc.)
+  - Usas event handlers (`onClick`, `onChange`, etc.)
+  - Usas APIs del navegador (`window`, `document`, `localStorage`)
+  - Usas contexto de React (`useContext`)
+- **NUNCA** agregar `'use client'` "por si acaso". Cada componente client-side es código extra en el bundle.
+- Preferir pasar Server Components como `children` de Client Components para mantener el árbol server.
+
+### Fetching de Datos
+- Usar **Server Components** para data fetching siempre que sea posible.
+- En Server Components, usar `fetch()` nativo o funciones `async` directamente.
+- Para datos dinámicos que requieren interacción del usuario, usar hooks + API Gateway.
+- Configurar correctamente `revalidate` y caching:
+  ```typescript
+  // Revalidación estática
+  export const revalidate = 3600; // revalidar cada hora
+  
+  // O por request
+  fetch(url, { next: { revalidate: 3600 } });
+  ```
+- NUNCA usar `getServerSideProps` ni `getStaticProps` (son de Pages Router).
+
+### Metadata y SEO
+- Usar la API de Metadata de Next.js en cada `page.tsx` y `layout.tsx`:
+  ```typescript
+  export const metadata: Metadata = {
+    title: 'Página — Unicon',
+    description: 'Descripción relevante para SEO',
+    openGraph: { ... },
+  };
+  ```
+- Para metadata dinámica usar `generateMetadata()`.
+- Incluir `robots.txt` y `sitemap.xml` via archivos especiales o Route Handlers.
+
+### Imágenes
+- SIEMPRE usar `next/image` en vez de `<img>`. Está configurado para WebP/AVIF.
+- Proporcionar `width`, `height` o usar `fill` para evitar CLS.
+- Para imágenes remotas, agregar dominios a `remotePatterns` en `next.config.ts`.
+- Usar lazy loading por defecto (ya es el default en `next/image`).
+
+### Links y Navegación
+- SIEMPRE usar `next/link` para navegación interna.
+- Usar el hook `useRouter` solo en Client Components cuando se necesite navegación programática.
+- Para i18n, usar las utilidades de `next-intl` (`Link`, `useRouter`, `redirect`).
+
+## React 19
+
+### Nuevas APIs
+- Preferir `use()` para resolver promesas en componentes cuando aplique.
+- Usar `useActionState` para formularios con Server Actions.
+- Usar `useOptimistic` para actualizaciones optimistas de UI.
+- Usar `useTransition` para transiciones no bloqueantes.
+
+### Server Actions
+- Definir Server Actions con `'use server'` en archivos separados dentro de `src/app/actions/`.
+- Las Server Actions son ideales para mutaciones (POST, PUT, DELETE).
+- Validar SIEMPRE los inputs del lado del servidor.
+- NUNCA exponer datos sensibles en Server Actions que se pasan al cliente.
+
+### Rendimiento
+- Usar `React.lazy()` y `Suspense` para code splitting de componentes pesados.
+- Usar `loading.tsx` para estados de carga a nivel de ruta.
+- Memoizar con `React.memo()` solo cuando haya re-renders medibles y problemáticos.
+- NO usar `useMemo`/`useCallback` prematuramente — React 19 tiene un compilador optimizador.
+- Activar y respetar `reactStrictMode: true` (ya configurado).
+
+### Internacionalización (i18n)
+- El proyecto usa `next-intl`. Todas las rutas están bajo `[locale]`.
+- Usar `useTranslations()` en Client Components.
+- Usar `getTranslations()` en Server Components.
+- Los archivos de traducción van en `messages/`.
+- NUNCA hardcodear textos visibles al usuario. Siempre usar traducciones.
+
+## Configuraciones Obligatorias (ya aplicadas)
+- `output: "standalone"` para Docker.
+- `poweredByHeader: false` para seguridad.
+- `reactStrictMode: true` para detección de problemas.
+- `scrollRestoration: true` para mejor UX.
+- Formatos de imagen optimizados: WebP y AVIF.

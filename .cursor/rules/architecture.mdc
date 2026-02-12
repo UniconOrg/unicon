@@ -1,0 +1,67 @@
+---
+description: Reglas de arquitectura limpia y estructura de carpetas del proyecto Unicon
+globs: src/**/*
+alwaysApply: true
+---
+
+# Arquitectura Limpia — Unicon Frontend
+
+## Estructura de Carpetas
+
+El proyecto sigue una arquitectura limpia adaptada a Next.js 15 App Router. La estructura raíz de `src/` debe ser:
+
+```
+src/
+├── api/                  # Gateway interno — ÚNICA capa que habla con backends externos
+│   ├── clients/          # Clientes HTTP configurados (axios/fetch wrappers)
+│   ├── endpoints/        # Funciones por dominio (auth, events, sponsors, etc.)
+│   └── types/            # Tipos de request/response de la API
+├── app/                  # App Router de Next.js (rutas, layouts, pages)
+│   └── [locale]/         # Rutas internacionalizadas
+├── components/           # Componentes UI (Atomic Design)
+│   ├── atom/             # Componentes atómicos (botones, inputs, labels)
+│   ├── molecule/         # Moléculas (combinaciones de átomos)
+│   └── organism/         # Organismos (secciones completas)
+├── hooks/                # Custom hooks de React
+├── i18n/                 # Configuración de internacionalización
+├── lib/                  # Utilidades puras y helpers sin side-effects
+├── sections/             # Composiciones de organismos para páginas
+├── stores/               # Estado global (si se requiere: zustand, context)
+├── types/                # Tipos e interfaces globales del dominio
+└── constants/            # Constantes y configuraciones de la app
+```
+
+## Principios Fundamentales
+
+### Separación de Responsabilidades
+- **Componentes (`components/`)**: Solo UI y presentación. NO lógica de negocio, NO fetch de datos.
+- **API Gateway (`api/`)**: ÚNICA capa autorizada para comunicarse con servicios externos.
+- **Hooks (`hooks/`)**: Encapsulan lógica reutilizable. Pueden consumir el API gateway.
+- **Pages (`app/`)**: Orquestan componentes y pasan datos via props o Server Components.
+- **Lib (`lib/`)**: Funciones puras sin dependencias de React ni del framework.
+
+### Regla de Dependencia (Clean Architecture)
+Las dependencias fluyen hacia adentro:
+- `app/` → puede importar de `components/`, `sections/`, `hooks/`, `api/`, `lib/`, `types/`
+- `sections/` → puede importar de `components/`, `hooks/`, `types/`
+- `components/` → puede importar de `lib/`, `types/`, otros `components/` de nivel inferior
+- `hooks/` → puede importar de `api/`, `lib/`, `types/`
+- `api/` → puede importar de `lib/`, `types/` (types de API)
+- `lib/` → NO importa de ninguna otra capa del proyecto
+
+### Prohibiciones
+- ❌ NUNCA importar de `api/` directamente en componentes. Usar hooks como intermediarios.
+- ❌ NUNCA colocar lógica de negocio en componentes de UI.
+- ❌ NUNCA crear archivos fuera de la estructura definida sin justificación.
+- ❌ NUNCA tener dependencias circulares entre capas.
+
+### Convenciones de Archivos
+- Componentes React: `PascalCase.tsx` (ej: `CTAButton.tsx`)
+- Hooks: `camelCase.ts` con prefijo `use` (ej: `useEvents.ts`)
+- Utilidades y lib: `camelCase.ts` (ej: `formatDate.ts`)
+- Tipos: `PascalCase.ts` o `camelCase.types.ts`
+- Constantes: `UPPER_SNAKE_CASE` dentro de archivos `camelCase.ts`
+
+### Exportaciones
+- Cada carpeta de dominio debe tener un `index.ts` barrel file para exports limpios.
+- Preferir named exports sobre default exports (excepto pages/layouts de Next.js).
