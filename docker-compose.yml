@@ -1,0 +1,19 @@
+
+
+services:
+  unicon-landing:
+    container_name: unicon-landing
+    build:
+      context: .
+      dockerfile: docker_images/app/Dockerfile.app
+    restart: always
+    ports:
+      - "3001:3000"
+    # networks:
+    #   - unicon_network
+
+# Define a network, which allows containers to communicate
+# with each other, by using their container name as a hostname
+# networks:
+#   unicon_network:
+#     external: true

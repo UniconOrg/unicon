@@ -1,0 +1,121 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: development   # 👈 Necesario para acceder a las variables del entorno
+    env:
+      # 🔹 Variables normales definidas en "Repository → Settings → Variables → Actions"
+      REGISTRY_URL: ${{ vars.REGISTRY_URL }}
+      REGISTRY_NAME: ${{ vars.REGISTRY_NAME }}
+      REPO_NAME: ${{ vars.REPO_NAME }}
+      DEPLOY_WEBHOOK: ${{ vars.DEPLOY_WEBHOOK }}
+      NOTIFY_WEBHOOK: ${{ vars.NOTIFY_WEBHOOK }}
+
+      # 🔐 Secretos (solo credenciales)
+      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+
+    steps:
+      - name: 🧾 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🏷️ Get branch name
+        id: branch
+        run: echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+
+      - name: 🧪 Debug env
+        run: |
+          echo "REGISTRY_URL=${REGISTRY_URL}"
+          echo "REGISTRY_NAME=${REGISTRY_NAME}"
+          echo "REPO_NAME=${REPO_NAME}"
+          echo "REGISTRY_USERNAME=${REGISTRY_USERNAME}"
+          echo "REGISTRY_PASSWORD=${REGISTRY_PASSWORD}"
+
+      - name: 🧠 Get latest version from registry
+        id: get_version
+        run: |
+          echo "🔍 Consulting registry for latest tags..."
+          BRANCH="${{ steps.branch.outputs.branch }}"
+          IMAGE_NAME="${REGISTRY_NAME}/${REPO_NAME}"
+
+          ALL_DATA=$(curl -s -u "${REGISTRY_USERNAME}:${REGISTRY_PASSWORD}" \
+            ${REGISTRY_URL}/v2/${IMAGE_NAME}/tags/list || echo "")
+
+          ALL_TAGS=$(echo "$ALL_DATA" | jq -r '.tags[]?' 2>/dev/null || true)
+          TAGS=$(echo "$ALL_TAGS" | grep "${BRANCH}-" || true)
+
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+
+          if [[ -z "$TAGS" ]]; then
+            BASE_VERSION="v0.0.1"
+          else
+            CLEAN_TAGS=$(echo "$TAGS" | sed -E "s/-${BRANCH}-[a-f0-9]+$//")
+            LAST_VERSION=$(echo "$CLEAN_TAGS" | sort -V | tail -n1)
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$(echo $LAST_VERSION | sed 's/v//')"
+            PATCH=$((PATCH + 1))
+            BASE_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+          fi
+
+          NEW_VERSION="${BASE_VERSION}-${BRANCH}-${COMMIT_SHA}"
+          echo "new_tag=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "✅ New tag: $NEW_VERSION"
+
+      - name: 🔐 Docker login
+        run: echo "${REGISTRY_PASSWORD}" | docker login "${REGISTRY_URL}" -u "${REGISTRY_USERNAME}" --password-stdin
+
+      - name: 🛠️ Build and push Docker image
+        run: |
+          VERSION="${{ steps.get_version.outputs.new_tag }}"
+          IMAGE="${REGISTRY_URL}/${REGISTRY_NAME}/${REPO_NAME}"
+
+          echo "🚧 Building image: $IMAGE"
+          docker build -f docker_images/app/Dockerfile.app \
+            -t $IMAGE:latest-dev \
+            -t $IMAGE:${VERSION} .
+
+          echo "📤 Pushing tags..."
+          docker push $IMAGE:latest-dev
+          docker push $IMAGE:${VERSION}
+
+      - name: 🧾 Save outputs
+        id: save
+        run: |
+          echo "commit_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "new_tag=${{ steps.get_version.outputs.new_tag }}" >> $GITHUB_OUTPUT
+
+  deploy-webhook:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    env:
+      DEPLOY_WEBHOOK: ${{ vars.DEPLOY_WEBHOOK }}
+    steps:
+      - name: 🚀 Trigger deploy webhook
+        run: curl -s "${DEPLOY_WEBHOOK}" || echo "⚠️ Webhook failed or not set"
+
+  notify-api:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    env:
+      NOTIFY_WEBHOOK: ${{ vars.NOTIFY_WEBHOOK }}
+      REGISTRY_NAME: ${{ vars.REGISTRY_NAME }}
+      REPO_NAME: ${{ vars.REPO_NAME }}
+    steps:
+      - name: 📣 Notify deploy API
+        run: |
+          curl -s -X POST "${NOTIFY_WEBHOOK}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "image_name": "'${REGISTRY_NAME}/${REPO_NAME}'",
+              "execution_time": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'",
+              "branch": "'${{ github.ref_name }}'",
+              "commit_sha": "'${{ needs.build-and-push.outputs.commit_sha || github.sha }}'",
+              "repository": "'${{ github.repository }}'",
+              "tags": ["'${{ needs.build-and-push.outputs.new_tag }}'", "latest-dev"],
+              "github_username": "'${{ github.actor }}'"
+            }' || echo "⚠️ Notify webhook failed or not set"

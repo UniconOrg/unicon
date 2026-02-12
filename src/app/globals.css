@@ -1,0 +1,42 @@
+/* Tailwind v4 */
+@import "tailwindcss";
+@reference "tailwindcss";
+
+/* Variables de color globales */
+:root {
+  --color-bg: #22253F;       /* Morado principal (fondo) */
+  --color-accent: #A87AB9;   /* Rosa acento */
+  --color-white: #ffffff;
+  --color-text: #f5f5f5;
+}
+
+/* Reset y estilos básicos */
+html, body { margin: 0; padding: 0; }
+
+/* Links */
+a {
+  @apply transition-colors duration-200;
+  color: var(--color-accent);
+}
+
+a:hover { opacity: 0.8; }
+
+/* Botones */
+.btn-primary {
+  @apply px-4 py-2 font-medium rounded-lg shadow-md transition;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+.btn-primary:hover { @apply opacity-90; }
+
+/* Títulos */
+h1, h2, h3, h4 {
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+/* Utilidades personalizadas */
+.bg-primary { background-color: var(--color-bg); }
+.bg-accent  { background-color: var(--color-accent); }
+.text-accent{ color: var(--color-accent); }

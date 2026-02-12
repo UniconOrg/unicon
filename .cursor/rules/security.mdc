@@ -1,0 +1,120 @@
+---
+description: Reglas de seguridad y prevención de vulnerabilidades del proyecto Unicon
+globs: src/**/*
+alwaysApply: true
+---
+
+# Seguridad y Vulnerabilidades — Unicon Frontend
+
+## Principios de Seguridad
+
+### OWASP Top 10 para Frontend
+Aplicar controles contra las vulnerabilidades más comunes en aplicaciones web.
+
+## Prevención de XSS (Cross-Site Scripting)
+
+### Reglas Estrictas
+- ❌ **NUNCA** usar `dangerouslySetInnerHTML` a menos que sea absolutamente necesario y el contenido esté sanitizado.
+- ❌ **NUNCA** insertar datos del usuario directamente en el DOM sin sanitizar.
+- ❌ **NUNCA** usar `eval()`, `new Function()`, ni `document.write()`.
+- ✅ React escapa automáticamente el contenido renderizado — confiar en este mecanismo.
+- ✅ Si se necesita renderizar HTML, usar una librería de sanitización como `DOMPurify`.
+- ✅ Validar y sanitizar TODA entrada del usuario tanto en cliente como en servidor.
+
+### Content Security Policy (CSP)
+- Las imágenes ya tienen CSP configurada en `next.config.ts`.
+- Para el resto de la app, configurar headers CSP en `next.config.ts`:
+  ```typescript
+  async headers() {
+    return [{
+      source: '/(.*)',
+      headers: [
+        { key: 'Content-Security-Policy', value: "default-src 'self'; ..." },
+        { key: 'X-Content-Type-Options', value: 'nosniff' },
+        { key: 'X-Frame-Options', value: 'DENY' },
+        { key: 'X-XSS-Protection', value: '1; mode=block' },
+        { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+      ],
+    }];
+  }
+  ```
+
+## Protección de Datos Sensibles
+
+### Variables de Entorno
+- ❌ **NUNCA** exponer secrets en variables `NEXT_PUBLIC_*`. Estas son visibles en el cliente.
+- ✅ Las API keys, tokens y secrets van en variables **sin** prefijo `NEXT_PUBLIC_`.
+- ✅ Usar `.env.local` para desarrollo (NUNCA commitear).
+- ✅ Mantener `.env.example` con las variables necesarias (sin valores reales).
+- ✅ Validar que todas las variables requeridas estén presentes al iniciar la app.
+
+### Archivos .gitignore
+Asegurar que estos archivos/carpetas estén en `.gitignore`:
+```
+.env
+.env.local
+.env.production
+.env.*.local
+node_modules/
+.next/
+out/
+build/
+*.pem
+*.key
+```
+
+### Datos en el Cliente
+- ❌ **NUNCA** almacenar tokens de autenticación en `localStorage` (vulnerable a XSS).
+- ✅ Preferir cookies `HttpOnly`, `Secure`, `SameSite=Strict` para tokens.
+- ❌ **NUNCA** logear datos sensibles (tokens, passwords, PII) en console.
+- ✅ Limpiar todos los `console.log` antes de merge a `develop`/`main`.
+
+## Seguridad en APIs y Comunicación
+
+### API Gateway Interno
+- ✅ Todas las peticiones al backend pasan por el gateway en `src/api/`.
+- ✅ El gateway valida y sanitiza respuestas antes de pasarlas a la UI.
+- ❌ **NUNCA** hacer fetch directo a URLs externas desde componentes React.
+- ✅ Usar HTTPS exclusivamente para todas las comunicaciones.
+- ✅ Implementar timeouts en todas las peticiones HTTP.
+- ✅ Manejar errores de red de forma segura sin exponer detalles internos.
+
+### Rate Limiting y Protección
+- ✅ Implementar debounce/throttle en inputs que disparen peticiones.
+- ✅ Considerar rate limiting en Route Handlers de Next.js.
+- ✅ No exponer endpoints internos o información de infraestructura en errores.
+
+## Seguridad en Formularios
+
+### Validación
+- ✅ Validar en **cliente Y servidor** (doble validación).
+- ✅ Usar esquemas de validación (ej: Zod) compartidos entre cliente y servidor.
+- ✅ Limitar longitud de inputs para prevenir ataques de payload grande.
+- ✅ Sanitizar caracteres especiales en inputs de texto libre.
+
+### CSRF
+- ✅ Usar Server Actions de Next.js que incluyen protección CSRF automática.
+- ✅ Para API routes propias, implementar tokens CSRF.
+
+## Dependencias
+
+### Manejo de Paquetes
+- ✅ Ejecutar `pnpm audit` regularmente para detectar vulnerabilidades.
+- ✅ Mantener dependencias actualizadas, especialmente parches de seguridad.
+- ❌ **NUNCA** instalar paquetes de fuentes no confiables.
+- ✅ Revisar el código de paquetes nuevos antes de instalarlos.
+- ✅ Usar lockfiles (`pnpm-lock.yaml`) para asegurar builds reproducibles.
+
+## Docker y Despliegue
+- ✅ Usar imágenes base oficiales y minimizadas (Alpine).
+- ✅ No ejecutar contenedores como root.
+- ✅ No incluir archivos de desarrollo en la imagen final.
+- ✅ Escanear imágenes Docker en busca de vulnerabilidades.
+- ✅ `poweredByHeader: false` ya está configurado — no revelar tecnología.
+
+## Logging y Monitoreo
+- ✅ Implementar logging estructurado para auditoría de seguridad.
+- ❌ **NUNCA** logear datos PII (nombres, emails, IPs) sin anonimizar.
+- ✅ Monitorear errores 4xx/5xx para detectar ataques.
+- ✅ Configurar alertas para patrones anómalos de uso.
