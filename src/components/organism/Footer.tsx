@@ -3,7 +3,7 @@ import { Instagram, Linkedin, Youtube, ArrowRight } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="border border-white text-white">
+    <footer className="bg-[#22253F] text-white">
       <div className="grid grid-cols-1 divide-y divide-white/20 md:grid-cols-3 md:divide-x md:divide-y-0">
         {/* Columna 1: Logo y descripción */}
         <div className="flex flex-col gap-4 p-8 md:p-12">

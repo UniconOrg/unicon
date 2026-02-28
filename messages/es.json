@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "Inicio",
+    "backToHome": "Volver al inicio",
+    "visitorCard": "Tarjeta de visitante"
+  },
+  "visitorCard": {
+    "title": "Tarjeta de visitante",
+    "description": "Tu pase digital de visitante para Unicon.",
+    "placeholderTitle": "Placeholder de tarjeta",
+    "placeholderDescription": "El contenido de la tarjeta de visitante irá aquí. Puedes añadir código QR, nombre, detalles del evento, etc."
+  }
+}

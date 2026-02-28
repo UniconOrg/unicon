@@ -1,0 +1,190 @@
+---
+description: Patrón de API Gateway interno para comunicación con backends en el proyecto Unicon
+globs: src/api/**/*
+alwaysApply: true
+---
+
+# API Gateway Interno — Unicon Frontend
+
+## Principio Fundamental
+
+> **REGLA DE ORO**: Ningún componente React, hook, ni página debe realizar peticiones HTTP directas a servicios externos. TODA comunicación con backends pasa por el gateway en `src/api/`.
+
+## Estructura del Gateway
+
+```
+src/api/
+├── clients/
+│   ├── httpClient.ts          # Cliente HTTP base configurado (fetch wrapper)
+│   └── index.ts               # Barrel export
+├── endpoints/
+│   ├── auth.ts                # Endpoints de autenticación
+│   ├── events.ts              # Endpoints de eventos
+│   ├── sponsors.ts            # Endpoints de sponsors
+│   └── index.ts               # Barrel export
+├── interceptors/
+│   ├── authInterceptor.ts     # Inyecta tokens de autenticación
+│   ├── errorInterceptor.ts    # Manejo centralizado de errores HTTP
+│   └── index.ts               # Barrel export
+├── types/
+│   ├── requests.ts            # Tipos de request bodies
+│   ├── responses.ts           # Tipos de response bodies
+│   └── index.ts               # Barrel export
+└── index.ts                   # Export principal del gateway
+```
+
+## Cliente HTTP Base
+
+### Implementación del Cliente
+El `httpClient.ts` es un wrapper sobre `fetch` nativo que centraliza:
+
+```typescript
+// src/api/clients/httpClient.ts
+interface HttpClientConfig {
+  baseURL: string;
+  timeout: number;
+  headers: Record<string, string>;
+}
+
+// El cliente debe implementar:
+// - Base URL configurable por entorno
+// - Timeout por defecto (ej: 10 segundos)
+// - Headers por defecto (Content-Type, Accept)
+// - Interceptores de request (auth tokens)
+// - Interceptores de response (manejo de errores)
+// - Retry automático para errores transitorios (5xx, network errors)
+// - Logging de peticiones en desarrollo
+```
+
+### Reglas del Cliente HTTP
+- ✅ Usar `fetch` nativo de Next.js (soporta caching y revalidación de Server Components).
+- ✅ Configurar `AbortController` con timeout para cada petición.
+- ✅ La URL base del backend se define en variables de entorno **SIN** prefijo `NEXT_PUBLIC_`:
+  - `API_BASE_URL` — Solo accesible desde el servidor.
+- ❌ **NUNCA** hardcodear URLs de APIs en el código.
+- ❌ **NUNCA** exponer la URL del backend al cliente.
+
+## Endpoints por Dominio
+
+### Estructura de un Módulo de Endpoints
+Cada archivo en `endpoints/` agrupa las peticiones de un dominio:
+
+```typescript
+// src/api/endpoints/events.ts
+import { httpClient } from '../clients/httpClient';
+import type { Event, EventListResponse, CreateEventRequest } from '../types';
+
+export const eventsApi = {
+  getAll: async (params?: { page?: number; limit?: number }): Promise<EventListResponse> => {
+    return httpClient.get('/events', { params });
+  },
+
+  getById: async (id: string): Promise<Event> => {
+    return httpClient.get(`/events/${id}`);
+  },
+
+  create: async (data: CreateEventRequest): Promise<Event> => {
+    return httpClient.post('/events', data);
+  },
+};
+```
+
+### Reglas de Endpoints
+- ✅ Cada dominio tiene su propio archivo.
+- ✅ Tipado estricto para requests y responses.
+- ✅ Funciones async que retornan datos parseados, no objetos Response crudos.
+- ✅ Nombres descriptivos: `getAll`, `getById`, `create`, `update`, `delete`.
+- ❌ **NUNCA** incluir lógica de UI en los endpoints.
+- ❌ **NUNCA** manejar estado de React dentro de los endpoints.
+
+## Consumo desde la Aplicación
+
+### En Server Components (Recomendado)
+```typescript
+// src/app/[locale]/events/page.tsx
+import { eventsApi } from '@/api';
+
+export default async function EventsPage() {
+  const events = await eventsApi.getAll();
+  return <EventsList events={events.data} />;
+}
+```
+
+### En Client Components (via Hooks)
+```typescript
+// src/hooks/useEvents.ts
+'use client';
+import { useState, useEffect } from 'react';
+import { eventsApi } from '@/api';
+
+export function useEvents() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    eventsApi.getAll()
+      .then(res => setEvents(res.data))
+      .catch(setError)
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { events, loading, error };
+}
+```
+
+### En Server Actions
+```typescript
+// src/app/actions/events.ts
+'use server';
+import { eventsApi } from '@/api';
+
+export async function createEvent(formData: FormData) {
+  const data = Object.fromEntries(formData);
+  return eventsApi.create(data);
+}
+```
+
+## Manejo de Errores
+
+### Error Centralizado
+```typescript
+// El interceptor de errores debe:
+// 1. Capturar errores HTTP (4xx, 5xx)
+// 2. Transformarlos en un formato consistente (ApiError)
+// 3. Logear errores para debugging (sin datos sensibles)
+// 4. Para 401: redirigir a login o refrescar token
+// 5. Para 403: mostrar mensaje de permisos
+// 6. Para 404: propagar para manejar en UI
+// 7. Para 5xx: mostrar error genérico al usuario, logear detalle
+
+interface ApiError {
+  status: number;
+  message: string;
+  code?: string;
+  details?: unknown;
+}
+```
+
+### Reglas de Errores
+- ✅ Usar un tipo `ApiError` consistente en toda la app.
+- ✅ Nunca mostrar mensajes de error del backend directamente al usuario.
+- ✅ Traducir mensajes de error usando i18n.
+- ✅ Implementar fallbacks y estados vacíos para cada escenario de error.
+- ❌ **NUNCA** exponer stack traces o detalles de infraestructura al usuario.
+
+## Caching y Revalidación
+
+### Estrategia
+- ✅ Usar el cache nativo de `fetch` en Server Components de Next.js.
+- ✅ Configurar `revalidate` apropiado según el tipo de dato:
+  - Datos estáticos (sponsors, FAQ): `revalidate: 3600` (1 hora).
+  - Datos semi-dinámicos (eventos): `revalidate: 300` (5 min).
+  - Datos en tiempo real: `cache: 'no-store'`.
+- ✅ Usar `revalidatePath()` o `revalidateTag()` tras mutaciones.
+
+## Testing del Gateway
+- ✅ Cada módulo de endpoints debe tener tests unitarios.
+- ✅ Mockear el `httpClient` en tests, no peticiones reales.
+- ✅ Testear manejo de errores para cada código HTTP.
+- ✅ Testear timeouts y reintentos.

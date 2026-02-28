@@ -13,6 +13,21 @@ export const routing = defineRouting({
         '/': {
             en: '/'
         },
+        '/visitor-card': {
+            en: '/visitor-card'
+        },
+        '/event/[id]': {
+            en: '/event/[id]'
+        },
+        '/landing': {
+            en: '/landing'
+        },
+        '/uniconfit/[id]': {
+            en: '/uniconfit/[id]'
+        },
+        '/meetups': {
+            en: '/meetups'
+        },
         // '/precios': {
         //     en: '/pricing'
         // },

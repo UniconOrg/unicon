@@ -1,0 +1,145 @@
+---
+description: Reglas de componentes con patrón Atomic Design para el proyecto Unicon
+globs: src/components/**/*
+alwaysApply: false
+---
+
+# Componentes — Atomic Design — Unicon Frontend
+
+## Jerarquía de Componentes
+
+### Átomos (`src/components/atom/`)
+Componentes UI más pequeños e indivisibles. No tienen lógica de negocio ni estado complejo.
+
+**Ejemplos**: Botones, inputs, labels, iconos, badges, avatars, spinners, tooltips.
+
+**Reglas**:
+- ✅ Completamente reutilizables y sin acoplamiento a datos del dominio.
+- ✅ Props tipadas con interfaces descriptivas.
+- ✅ Soportar composición via `children` cuando tenga sentido.
+- ✅ Incluir props de accesibilidad (`aria-*`, `role`, etc.).
+- ❌ **NUNCA** hacer fetch de datos dentro de un átomo.
+- ❌ **NUNCA** importar hooks de dominio ni del API gateway.
+- ❌ Máximo ~80 líneas de código por átomo. Si es más grande, dividir.
+
+```typescript
+// ✅ Buen átomo
+interface ButtonProps {
+  variant: 'primary' | 'secondary' | 'ghost';
+  size: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+  'aria-label'?: string;
+}
+
+export function Button({ variant, size, children, ...props }: ButtonProps) {
+  return <button className={cn(variants[variant], sizes[size])} {...props}>{children}</button>;
+}
+```
+
+### Moléculas (`src/components/molecule/`)
+Combinaciones de átomos que forman una unidad funcional coherente.
+
+**Ejemplos**: Search bars, cards, nav items, form fields con label, media objects.
+
+**Reglas**:
+- ✅ Compuestos de átomos y HTML nativo.
+- ✅ Pueden tener estado local simple (`useState` para UI interna).
+- ✅ Reciben datos via props — no los obtienen directamente.
+- ❌ **NUNCA** importar del API gateway directamente.
+- ❌ Máximo ~150 líneas de código.
+
+### Organismos (`src/components/organism/`)
+Secciones completas de UI que combinan moléculas y átomos. Representan partes significativas de una página.
+
+**Ejemplos**: Headers, footers, formularios completos, secciones hero, galerías.
+
+**Reglas**:
+- ✅ Pueden ser Server Components o Client Components según necesidad.
+- ✅ Pueden recibir datos via props desde pages/sections.
+- ✅ Pueden usar hooks personalizados para lógica compleja.
+- ✅ Pueden contener estado de UI complejo.
+- ❌ **NUNCA** hacer fetch directo — recibir datos por props o usar hooks que consumen el gateway.
+- ❌ Máximo ~250 líneas de código. Si es más grande, dividir en sub-componentes.
+
+### Secciones (`src/sections/`)
+Composiciones de organismos que representan páginas completas o vistas principales.
+
+**Reglas**:
+- ✅ Orquestan múltiples organismos.
+- ✅ Pueden hacer fetch de datos (especialmente como Server Components).
+- ✅ Pasan datos a organismos via props.
+
+## Convenciones Generales
+
+### Nomenclatura
+- Archivos y componentes en **PascalCase**: `CTAButton.tsx`, `EventHeader.tsx`.
+- Props interfaces con sufijo descriptivo: `ButtonProps`, `EventHeaderProps`.
+- Un componente principal por archivo.
+- El nombre del archivo debe coincidir con el nombre del componente exportado.
+
+### Estructura de un Componente
+```typescript
+// 1. Imports
+import { type ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+
+// 2. Types/Interfaces
+interface MyComponentProps {
+  title: string;
+  children: ReactNode;
+  className?: string;
+}
+
+// 3. Component (named export preferido)
+export function MyComponent({ title, children, className }: MyComponentProps) {
+  // 4. Hooks (si aplica)
+  // 5. Derived state / computations
+  // 6. Handlers
+  // 7. Render
+  return (
+    <div className={cn('base-styles', className)}>
+      <h2>{title}</h2>
+      {children}
+    </div>
+  );
+}
+```
+
+### Props
+- ✅ Tipar TODAS las props con interfaces TypeScript.
+- ✅ Usar destructuring en los parámetros del componente.
+- ✅ Props opcionales con `?` y valores por defecto cuando tenga sentido.
+- ✅ Pasar `className` como prop opcional para permitir personalización.
+- ✅ Usar `React.ReactNode` para `children`, `React.ComponentPropsWithoutRef<'div'>` para extender HTML nativo.
+- ❌ **NUNCA** usar `any` en props.
+- ❌ **NUNCA** pasar más de 7-8 props. Si necesitas más, agrupar en objetos.
+
+### Accesibilidad (a11y)
+- ✅ Usar elementos HTML semánticos (`<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`).
+- ✅ Incluir `alt` en todas las imágenes.
+- ✅ Asociar labels con inputs (`htmlFor`).
+- ✅ Asegurar contraste de color suficiente (WCAG AA mínimo).
+- ✅ Incluir `aria-label` en botones con solo iconos.
+- ✅ Asegurar navegación completa por teclado.
+- ✅ Usar `role` y `aria-*` apropiados para componentes interactivos custom.
+
+### Rendimiento
+- ✅ Preferir Server Components para componentes sin interactividad.
+- ✅ Usar `React.lazy()` + `Suspense` para componentes pesados below-the-fold.
+- ✅ Evitar re-renders innecesarios: keys estables, props estables.
+- ❌ **NUNCA** crear funciones inline en el render si causan re-renders hijos.
+- ❌ **NUNCA** usar index como key en listas que pueden cambiar de orden.
+
+### Co-ubicación
+- Si un componente tiene sub-componentes exclusivos, co-ubicarlos en una carpeta:
+  ```
+  components/organism/
+  ├── Hero/
+  │   ├── Hero.tsx
+  │   ├── HeroTitle.tsx
+  │   ├── HeroActions.tsx
+  │   └── index.ts
+  ```

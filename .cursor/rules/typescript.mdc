@@ -1,0 +1,137 @@
+---
+description: Reglas de TypeScript estricto y tipado para el proyecto Unicon
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# TypeScript Estricto — Unicon Frontend
+
+## Configuración Base
+El proyecto usa TypeScript con `strict: true` habilitado. Todas las reglas estrictas aplican.
+
+## Reglas de Tipado
+
+### Prohibiciones Absolutas
+- ❌ **NUNCA** usar `any`. Usar `unknown` si el tipo es realmente desconocido y luego hacer type narrowing.
+- ❌ **NUNCA** usar `@ts-ignore` ni `@ts-expect-error` sin un comentario que justifique por qué.
+- ❌ **NUNCA** usar type assertions (`as`) excepto cuando sea absolutamente necesario y documentado.
+- ❌ **NUNCA** usar `!` (non-null assertion) sin verificación previa.
+- ❌ **NUNCA** dejar tipos implícitos en firmas de funciones públicas.
+
+### Buenas Prácticas
+- ✅ Usar `interface` para formas de objetos y contratos públicos.
+- ✅ Usar `type` para unions, intersections, y tipos utilitarios.
+- ✅ Preferir `Record<K, V>` sobre `{ [key: string]: V }`.
+- ✅ Usar enums como `const` objects (`as const`) en vez de TypeScript enums:
+  ```typescript
+  // ✅ Preferido
+  const STATUS = {
+    ACTIVE: 'active',
+    INACTIVE: 'inactive',
+  } as const;
+  type Status = (typeof STATUS)[keyof typeof STATUS];
+
+  // ❌ Evitar
+  enum Status { ACTIVE = 'active', INACTIVE = 'inactive' }
+  ```
+- ✅ Usar discriminated unions para estados complejos:
+  ```typescript
+  type AsyncState<T> =
+    | { status: 'idle' }
+    | { status: 'loading' }
+    | { status: 'success'; data: T }
+    | { status: 'error'; error: string };
+  ```
+
+### Funciones
+- ✅ Tipar explícitamente los parámetros de las funciones.
+- ✅ Tipar el retorno explícitamente en funciones exportadas.
+- ✅ Usar genéricos cuando aporte reutilizabilidad real.
+- ✅ Usar `readonly` para params que no deben mutarse.
+- ✅ Preferir funciones puras con tipos de retorno predecibles.
+
+```typescript
+// ✅ Bien tipado
+export function formatCurrency(amount: number, currency: string = 'MXN'): string {
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency }).format(amount);
+}
+
+// ❌ Mal tipado
+export function formatCurrency(amount, currency) {
+  return new Intl.NumberFormat('es-MX', { style: 'currency', currency }).format(amount);
+}
+```
+
+### Componentes React
+- ✅ Tipar props con `interface` dedicada:
+  ```typescript
+  interface CardProps {
+    title: string;
+    description?: string;
+    children: React.ReactNode;
+  }
+  export function Card({ title, description, children }: CardProps) { ... }
+  ```
+- ❌ **NUNCA** usar `React.FC` — tipar props directamente en el parámetro.
+- ✅ Usar `React.ReactNode` para children.
+- ✅ Usar `React.ComponentPropsWithoutRef<'element'>` para extender elementos HTML.
+
+### Event Handlers
+```typescript
+// ✅ Tipos correctos para eventos
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => { ... };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { ... };
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { ... };
+```
+
+## Organización de Tipos
+
+### Estructura
+```
+src/types/
+├── api.ts         # Tipos compartidos de API (si difieren de src/api/types/)
+├── domain.ts      # Entidades del dominio (Event, User, Sponsor)
+├── ui.ts          # Tipos de UI compartidos
+└── index.ts       # Barrel export
+```
+
+### Reglas de Organización
+- ✅ Tipos específicos de un componente van en el mismo archivo del componente.
+- ✅ Tipos compartidos entre múltiples archivos van en `src/types/`.
+- ✅ Tipos de API van en `src/api/types/`.
+- ✅ Re-exportar tipos públicos a través de barrel files (`index.ts`).
+- ❌ **NUNCA** duplicar definiciones de tipos. Reutilizar y extender.
+
+## Utilidades de TypeScript
+
+### Tipos Utilitarios Comunes
+```typescript
+// Hacer todas las propiedades opcionales de forma recursiva
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+// Excluir propiedades null/undefined
+type NonNullableFields<T> = {
+  [P in keyof T]: NonNullable<T[P]>;
+};
+
+// Extraer tipo de un array
+type ArrayElement<T extends readonly unknown[]> = T[number];
+```
+
+### Imports de Tipos
+- ✅ Usar `import type { ... }` para imports que solo se usan como tipos:
+  ```typescript
+  import type { Metadata } from 'next';
+  import type { ReactNode } from 'react';
+  ```
+- Esto mejora el tree-shaking y hace explícita la intención.
+
+## Reglas de ESLint para TypeScript
+Asegurar que las siguientes reglas estén habilitadas:
+- `@typescript-eslint/no-explicit-any`: error
+- `@typescript-eslint/no-unused-vars`: error
+- `@typescript-eslint/prefer-nullish-coalescing`: warn
+- `@typescript-eslint/prefer-optional-chain`: warn
+- `@typescript-eslint/strict-boolean-expressions`: warn
