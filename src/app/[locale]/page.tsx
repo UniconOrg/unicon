@@ -9,7 +9,7 @@ export default function Page() {
       <Sidebar />
 
       {/* Contenido principal */}
-      <main className="flex-1 overflow-y-auto divide-y divide-white">
+      <main className="flex-1 overflow-y-auto divide-y divide-white pt-14 md:pt-0">
         {/* Renderizar las secciones preconfiguradas para evitar importarlas como componentes */}
         {homeSections.map(({ key, node }) => (
           <div key={key} id={key}>
