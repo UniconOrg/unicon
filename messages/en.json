@@ -1,0 +1,13 @@
+{
+  "common": {
+    "home": "Home",
+    "backToHome": "Back to home",
+    "visitorCard": "Visitor card"
+  },
+  "visitorCard": {
+    "title": "Visitor Card",
+    "description": "Your digital visitor pass for Unicon.",
+    "placeholderTitle": "Card placeholder",
+    "placeholderDescription": "Visitor card content will go here. You can add QR code, name, event details, or other info."
+  }
+}
