@@ -1,92 +1,16 @@
 import Image from "next/image";
-import { Plus } from "lucide-react";
+import { Plus, ArrowRight } from "lucide-react";
 import CTAButton from "@/components/atom/CTAButton";
-
-type Event = {
-  id: string;
-  date: string;
-  time: string;
-  speakerName: string;
-  speakerRole: string;
-  speakerCompany: string;
-  description: string;
-  imageUrl: string;
-};
-
-const mockEvents: Event[] = [
-  {
-    id: "1",
-    date: "Hoy",
-    time: "02:00 pm",
-    speakerName: "María González",
-    speakerRole: "CTO",
-    speakerCompany: "TechMX",
-    description: "Cómo escalar startups en Latinoamérica: lecciones aprendidas y estrategias clave para el éxito",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-  {
-    id: "2",
-    date: "Mañana",
-    time: "10:30 am",
-    speakerName: "Carlos Ramírez",
-    speakerRole: "Head of Engineering",
-    speakerCompany: "Nubank",
-    description: "Arquitectura de microservicios a escala: manejando millones de transacciones diarias",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-  {
-    id: "3",
-    date: "Vie 28",
-    time: "04:00 pm",
-    speakerName: "Ana Martínez",
-    speakerRole: "AI Research Lead",
-    speakerCompany: "Google DeepMind",
-    description: "El futuro de la inteligencia artificial generativa y su impacto en el desarrollo de software",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-  {
-    id: "4",
-    date: "Hoy",
-    time: "05:30 pm",
-    speakerName: "Diego López",
-    speakerRole: "VP of Product",
-    speakerCompany: "Rappi",
-    description: "Product-led growth: construyendo productos que se venden solos en mercados emergentes",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-  {
-    id: "5",
-    date: "Mañana",
-    time: "03:00 pm",
-    speakerName: "Laura Sánchez",
-    speakerRole: "Staff Engineer",
-    speakerCompany: "Spotify",
-    description: "Sistemas distribuidos y alta disponibilidad: lecciones de streaming a escala global",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-  {
-    id: "6",
-    date: "Sáb 29",
-    time: "11:00 am",
-    speakerName: "Roberto Chen",
-    speakerRole: "Founder & CEO",
-    speakerCompany: "CloudLatam",
-    description: "De idea a unicornio: el camino del emprendimiento tech en América Latina",
-    imageUrl: "/illustrations/hero-speaker.png",
-  },
-];
+import { Link } from "@/i18n/navigation";
+import { mockEvents, type Event } from "@/lib/events";
 
 function EventCard({ event }: { event: Event }) {
-  return (
-    <div className="flex h-full min-h-[180px] items-center gap-4 rounded-xl border border-[#3a3f5c] p-6 md:p-8">
-      {/* Fecha y hora */}
-      <div className="flex w-24 shrink-0 flex-col items-center justify-center text-center">
-        <span className="text-2xl font-semibold leading-tight">{event.date}</span>
-        <span className="text-sm text-white/70">{event.time}</span>
-      </div>
+  const speakerTitle = `${event.speakerRole}, ${event.speakerCompany}`;
 
-      {/* Imagen del speaker */}
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-2 border-[#788BCE] md:h-28 md:w-28">
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-3 rounded-xl border border-[#788BCE] px-4 py-6">
+      {/* Imagen circular del speaker */}
+      <div className="relative h-[132px] w-[132px] shrink-0 overflow-hidden rounded-full p-2.5">
         <Image
           src={event.imageUrl}
           alt={event.speakerName}
@@ -95,21 +19,58 @@ function EventCard({ event }: { event: Event }) {
         />
       </div>
 
-      {/* Info del evento */}
-      <div className="flex flex-1 flex-col gap-3">
-        <div className="flex items-baseline gap-3">
-          <span className="text-2xl font-semibold">{event.speakerName}</span>
-          <span className="text-base text-white/60">
-            {event.speakerRole}, {event.speakerCompany}
+      {/* Contenido principal */}
+      <div className="flex min-w-[120px] flex-1 flex-col gap-2">
+        {/* Nombre y título del speaker */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-2xl font-bold leading-8 text-[#F4F4F6]">
+            {event.speakerName}
+          </span>
+          <span className="text-base font-normal leading-6 text-[#BAC4E8]">
+            {speakerTitle}
           </span>
         </div>
-        <p className="line-clamp-2 text-base text-white/70">{event.description}</p>
-        <button className="inline-flex w-fit items-center gap-3 rounded-full bg-[#2a2f4a] px-5 py-3 text-base text-white/90 transition hover:bg-[#3a3f5c]">
-          Añadir a Calendario
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#788BCE]">
-            <Plus className="h-4 w-4 text-white" strokeWidth={2} />
+
+        {/* Fecha y hora */}
+        <div className="flex items-center gap-2 pr-3">
+          <span className="text-lg font-semibold leading-7 text-[#BAC4E8]">
+            {event.date}
           </span>
-        </button>
+          <span className="text-lg font-semibold leading-7 text-[#F1F1F3]">
+            {event.time}
+          </span>
+        </div>
+
+        {/* Descripción */}
+        <p className="line-clamp-1 text-sm font-normal leading-5 text-[#F4F4F6]">
+          {event.description}
+        </p>
+
+        {/* Botones CTA */}
+        <div className="flex items-start gap-2">
+          <button
+            type="button"
+            className="flex items-center gap-3 rounded-full bg-[#F1F1F3] py-1.5 pl-4 pr-2 transition hover:bg-white/90"
+          >
+            <span className="text-sm font-medium leading-5 text-[#131420]">
+              Inscribirme ahora 🚀
+            </span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#788BCE]">
+              <Plus className="h-6 w-6 text-[#F4F4F6]" strokeWidth={2} />
+            </span>
+          </button>
+          <Link
+            href={{ pathname: "/event/[id]", params: { id: event.id } }}
+            className="flex items-center gap-3 rounded-full bg-[#131420] py-1.5 pl-4 pr-2 transition hover:bg-[#1a1b2e]"
+          >
+            <span className="text-sm font-medium leading-5 text-[#F4F4F6]">
+              Ver Detalles
+            </span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#A87AB9]">
+              <ArrowRight className="h-6 w-6 text-[#F4F4F6]" strokeWidth={2} />
+            </span>
+          </Link>
+        </div>
       </div>
     </div>
   );
