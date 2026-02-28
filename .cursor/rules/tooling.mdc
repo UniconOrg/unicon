@@ -1,0 +1,36 @@
+---
+description: Runtime y gestor de paquetes del proyecto Unicon
+globs: package.json, bun.lock*
+alwaysApply: true
+---
+
+# Tooling — Bun Runtime
+
+## Runtime
+
+- El proyecto utiliza **Bun** como runtime de JavaScript/TypeScript.
+- Todas las dependencias deben instalarse con **Bun**, nunca con npm, yarn o pnpm.
+
+## Instalación de dependencias
+
+```bash
+# Añadir dependencia de producción
+bun add <paquete>
+
+# Añadir dependencia de desarrollo
+bun add -d <paquete>
+
+# Instalar todas las dependencias del proyecto
+bun install
+```
+
+## Comandos del proyecto
+
+- Usar `bun run dev` para desarrollo (en lugar de `npm run dev` o `pnpm dev`).
+- Usar `bun run build` para compilar.
+- Usar `bun run start` para producción.
+
+## Regla obligatoria
+
+- **NUNCA** usar `npm install`, `pnpm add`, `yarn add` ni similares.
+- **SIEMPRE** usar `bun add` para instalar paquetes nuevos.
