@@ -40,6 +40,5 @@ docker-compose*
 # Misc
 .DS_Store
 *.pem
-bun.lock
-bun.lockb
+pnpm-lock.yaml
 
