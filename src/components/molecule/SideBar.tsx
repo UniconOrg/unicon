@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Home, Ticket, MapPin, HelpCircle, Phone, User, Menu, X } from "lucide-react";
+import { Home, Ticket, MapPin, HelpCircle, Phone, User, Menu } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 
 const navItems = [
-  { icon: Home, href: "/#hero", hash: "hero", label: "Inicio" },
-  { icon: Ticket, href: "/#events", hash: "events", label: "Eventos" },
-  { icon: MapPin, href: "/#closing", hash: "closing", label: "Ubicación" },
-  { icon: HelpCircle, href: "/#faq", hash: "faq", label: "Preguntas" },
-  { icon: Phone, href: "/#footer", hash: "footer", label: "Contacto" },
+  { icon: Home, hash: "hero", label: "Inicio" },
+  { icon: Ticket, hash: "events", label: "Eventos" },
+  { icon: MapPin, hash: "closing", label: "Ubicación" },
+  { icon: HelpCircle, hash: "faq", label: "Preguntas" },
+  { icon: Phone, hash: "footer", label: "Contacto" },
 ];
 
 export default function Sidebar() {
@@ -50,10 +50,9 @@ export default function Sidebar() {
     };
   }, [isEventPage]);
 
-  const scrollToSection = (href: string) => {
+  const scrollToSection = (hash: string) => {
     setMobileMenuOpen(false);
-    const sectionId = href.replace("/#", "");
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(hash);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -68,8 +67,8 @@ export default function Sidebar() {
         if (isEventPage) {
           return (
             <Link
-              key={item.href}
-              href={item.href}
+              key={item.hash}
+              href={{ pathname: "/", hash: item.hash }}
               onClick={() => setMobileMenuOpen(false)}
               className={`flex items-center gap-3 px-4 py-3 transition-colors ${
                 item.hash === "hero" ? "text-[#945ea7]" : "text-white/60 hover:text-white"
@@ -83,8 +82,8 @@ export default function Sidebar() {
 
         return (
           <button
-            key={item.href}
-            onClick={() => scrollToSection(item.href)}
+            key={item.hash}
+            onClick={() => scrollToSection(item.hash)}
             className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
               isActive ? "text-[#945ea7]" : "text-white/60 hover:text-white"
             }`}
@@ -148,8 +147,8 @@ export default function Sidebar() {
             if (isEventPage) {
               return (
                 <Link
-                  key={item.href}
-                  href={item.href}
+                  key={item.hash}
+                  href={{ pathname: "/", hash: item.hash }}
                   className={`w-6 h-6 transition-colors ${
                     item.hash === "hero" ? "text-[#945ea7]" : "text-white/60 hover:text-white"
                   }`}
@@ -162,8 +161,8 @@ export default function Sidebar() {
 
             return (
               <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
+                key={item.hash}
+                onClick={() => scrollToSection(item.hash)}
                 className={`w-6 h-6 transition-colors ${
                   isActive ? "text-[#945ea7]" : "text-white/60 hover:text-white"
                 }`}
