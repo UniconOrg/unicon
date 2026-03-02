@@ -4,13 +4,11 @@ on:
   push:
     branches:
       - main
-      - development
-      - staging
+      - dev
   pull_request:
     branches:
       - main
-      - development
-      - staging
+      - dev
   workflow_dispatch:
 
 permissions:
@@ -197,7 +195,7 @@ jobs:
             REGISTRY_DISPLAY="$REGISTRY"
           fi
           
-          DOCKERFILE="${DOCKERFILE_PATH:-Dockerfile}"
+          DOCKERFILE="${DOCKERFILE_PATH:-docker_images/app/Dockerfile.app}"
           IMAGE_VERSIONED="${IMAGE_BASE}:${TAG}-${VERSION}"
           IMAGE_LATEST="${IMAGE_BASE}:${TAG}-latest"
           
